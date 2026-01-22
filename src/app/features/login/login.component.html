@@ -1,0 +1,38 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-hero">
+      <div class="hero-label">Bem-vindo(a) de volta</div>
+      <h1>MindCare AI</h1>
+      <p>Entre para enviar análises do MindCheck AI e revisar o histórico de triagens.</p>
+    </div>
+
+    <div class="login-panels">
+      <section class="panel">
+        <h2>Entrar</h2>
+        <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
+          <label>
+            Email
+            <input type="email" formControlName="email" placeholder="usuario@mindcare.ai" />
+          </label>
+          <small class="field-error" *ngIf="signInForm.get('email')?.touched && signInForm.get('email')?.invalid">
+            Informe um email válido.
+          </small>
+          <label>
+            Senha
+            <input type="password" formControlName="senha" placeholder="••••••••" />
+          </label>
+          <small class="field-error" *ngIf="signInForm.get('senha')?.touched && signInForm.get('senha')?.invalid">
+            A senha é obrigatória.
+          </small>
+          <button type="submit" class="primary" [disabled]="loadingSignIn">
+            {{ loadingSignIn ? 'Entrando...' : 'Entrar' }}
+          </button>
+        </form>
+        <div class="login-footer" *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div class="switch-link">
+          Precisa de uma conta? <a routerLink="/register">Cadastre-se</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

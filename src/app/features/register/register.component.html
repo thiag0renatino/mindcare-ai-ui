@@ -1,0 +1,57 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-hero">
+      <div class="hero-label">Crie seu acesso</div>
+      <h1>Cadastro MindCare AI</h1>
+      <p>Crie uma conta para começar a enviar análises ao MindCheck AI.</p>
+    </div>
+
+    <section class="panel">
+      <h2>Cadastrar</h2>
+      <p>Informe seus dados e a empresa para criar uma nova conta.</p>
+      <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+        <label>
+          Nome completo
+          <input type="text" formControlName="nome" placeholder="" />
+        </label>
+        <small class="field-error" *ngIf="registerForm.get('nome')?.touched && registerForm.get('nome')?.invalid">
+          Informe um nome válido.
+        </small>
+        <label>
+          Empresa
+          <input type="text" formControlName="empresa" placeholder="MindCare Solutions" />
+        </label>
+        <small
+          class="field-error"
+          *ngIf="registerForm.get('empresa')?.touched && registerForm.get('empresa')?.invalid"
+        >
+          O nome da empresa é obrigatório.
+        </small>
+        <label>
+          Email
+          <input type="email" formControlName="email" placeholder="email@empresa.com" />
+        </label>
+        <small class="field-error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+          Informe um email válido.
+        </small>
+        <label>
+          Senha
+          <input type="password" formControlName="senha" placeholder="No mínimo 6 caracteres" />
+        </label>
+        <small
+          class="field-error"
+          *ngIf="registerForm.get('senha')?.touched && registerForm.get('senha')?.invalid"
+        >
+          A senha deve ter pelo menos 6 caracteres.
+        </small>
+        <button type="submit" class="primary" [disabled]="loading">
+          {{ loading ? 'Cadastrando...' : 'Criar conta' }}
+        </button>
+      </form>
+      <div class="login-footer" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="switch-link">
+        Já tem uma conta? <a routerLink="/login">Entrar</a>
+      </div>
+    </section>
+  </div>
+</div>
