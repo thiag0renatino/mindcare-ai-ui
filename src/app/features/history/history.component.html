@@ -1,0 +1,35 @@
+<section class="history">
+  <div class="history-header">
+    <div>
+      <h2>Histórico</h2>
+      <p>Análises salvas localmente neste navegador.</p>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="history.length; else empty">
+    <div class="table">
+      <div class="row header">
+        <span>Data/hora</span>
+        <span>Risco</span>
+        <span>Relato</span>
+        <span>Triagem Código</span>
+        <span>Encaminhamento</span>
+      </div>
+      <a class="row" *ngFor="let entry of history" [routerLink]="['/history', entry.id]">
+        <span>{{ entry.createdAt | date: 'short' }}</span>
+        <span>{{ riskLabel(entry) }}</span>
+        <span>{{ excerpt(entry) }}</span>
+        <span>{{ entry.response?.triagem?.id ?? '—' }}</span>
+        <span>{{ hasReferral(entry) ? 'Sim' : 'Não' }}</span>
+      </a>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="card empty">
+      <h3>Ainda não há histórico</h3>
+      <p>Execute uma nova análise e salve para ver entradas aqui.</p>
+      <a class="primary" routerLink="/analysis/new">Iniciar nova análise</a>
+    </div>
+  </ng-template>
+</section>

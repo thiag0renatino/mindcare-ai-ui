@@ -1,0 +1,137 @@
+<section class="analysis">
+    <div class="analysis-header">
+      <div>
+        <h2>Nova análise</h2>
+        <p>Envie um relato estruturado ao MindCheck AI e acompanhe o fluxo de triagem.</p>
+      </div>
+      <div class="actions">
+        <button class="ghost" type="button" (click)="resetForm()">Nova análise</button>
+      </div>
+    </div>
+
+  <div class="analysis-grid">
+    <form class="card form-card" [formGroup]="analysisForm" (ngSubmit)="submit()">
+      <h3>Dados do relato</h3>
+      <div class="field">
+        <label>Relato *</label>
+        <textarea formControlName="relato" rows="5" placeholder="Descreva o relato em detalhes..."></textarea>
+      </div>
+      <div class="field">
+        <label>Sintomas</label>
+        <textarea formControlName="sintomas" rows="3" placeholder="Sintomas ou sinais (opcional)"></textarea>
+      </div>
+      <div class="field">
+        <label>Humor</label>
+        <input formControlName="humor" placeholder="Humor, ex: ansioso, estável" />
+      </div>
+      <div class="field">
+        <label>Rotina</label>
+        <textarea formControlName="rotina" rows="3" placeholder="Contexto da rotina (opcional)"></textarea>
+      </div>
+      <button class="primary" type="submit" [disabled]="loading">
+        {{ loading ? 'Analisando...' : 'Analisar com IA' }}
+      </button>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </form>
+
+    <div class="card progress-card">
+      <h3>Progresso do fluxo</h3>
+      <div class="steps">
+        <div class="step" *ngFor="let step of steps" [class.active]="step.state === 'active'"
+          [class.done]="step.state === 'done'">
+          <span class="dot"></span>
+          <span>{{ step.label }}</span>
+        </div>
+      </div>
+
+      <div class="result-actions" *ngIf="result">
+        <button class="ghost" type="button" (click)="saveHistory()" [class.success]="savedMessage">
+          {{ savedMessage ? 'Salvo no histórico' : 'Salvar no histórico' }}
+        </button>
+        <button class="ghost" type="button" (click)="copySummary()" [class.success]="copiedMessage">
+          {{ copiedMessage ? 'Resumo copiado' : 'Copiar resumo' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="results" *ngIf="result">
+    <div class="card">
+      <div class="card-title">
+        <h3>Resultado da IA</h3>
+        <span class="risk" [class]="riskClass(result.risco)">{{ result.risco || 'DESCONHECIDO' }}</span>
+      </div>
+      <p class="label">Justificativa</p>
+      <p>{{ result.justificativa || 'Nenhuma justificativa retornada.' }}</p>
+      <div class="columns">
+        <div>
+          <p class="label">Sugestões</p>
+          <ul>
+            <li *ngFor="let suggestion of result.sugestoes">{{ suggestion }}</li>
+            <li *ngIf="!result.sugestoes?.length">Nenhuma sugestão retornada.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Encaminhamentos sugeridos</p>
+          <ul>
+            <li *ngFor="let item of result.encaminhamentos">{{ item }}</li>
+            <li *ngIf="!result.encaminhamentos?.length">Nenhum encaminhamento sugerido.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Triagem persistida</h3>
+      <div class="grid">
+        <div>
+          <span class="label">triagem código</span>
+          <strong>{{ result.triagem?.id ?? '—' }}</strong>
+        </div>
+        <div>
+          <span class="label">usuario código</span>
+          <strong>{{ result.triagem?.usuario?.id ?? '—' }}</strong>
+        </div>
+        <div>
+          <span class="label">data e hora</span>
+          <strong>{{ result.triagem?.dataHora ?? '—' }}</strong>
+        </div>
+        <div>
+          <span class="label">risco</span>
+          <strong>{{ result.triagem?.risco ?? result.risco ?? '—' }}</strong>
+        </div>
+      </div>
+      <p class="label">Observações da triagem</p>
+      <p>{{ result.triagem?.sugestao ?? 'Nenhuma observação retornada.' }}</p>
+    </div>
+
+    <div class="card" *ngIf="result.risco?.toUpperCase() === 'MODERADO' || result.risco?.toUpperCase() === 'ALTO'">
+      <h3>Encaminhamento</h3>
+      <div class="grid">
+        <div>
+          <span class="label">encaminhamento código</span>
+          <strong>{{ result.encaminhamento?.id ?? '—' }}</strong>
+        </div>
+        <div>
+          <span class="label">prioridade</span>
+          <strong>{{ result.encaminhamento?.prioridade ?? '—' }}</strong>
+        </div>
+        <div>
+          <span class="label">especialidade</span>
+          <strong>{{ result.encaminhamento?.especialidade ?? '—' }}</strong>
+        </div>
+        <div>
+          <span class="label">status</span>
+          <strong>{{ result.encaminhamento?.status ?? '—' }}</strong>
+        </div>
+      </div>
+      <p class="label">Detalhes</p>
+      <p>{{ result.encaminhamento?.observacao ?? 'Encaminhamento criado automaticamente.' }}</p>
+    </div>
+
+    <div class="card" *ngIf="result.risco?.toUpperCase() === 'BAIXO'">
+      <h3>Encaminhamento</h3>
+      <p>Nenhum encaminhamento gerado para risco baixo.</p>
+    </div>
+  </div>
+</section>

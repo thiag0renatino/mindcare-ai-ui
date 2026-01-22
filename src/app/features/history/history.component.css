@@ -1,0 +1,82 @@
+.history {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.history-header h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.5rem;
+}
+
+.card {
+  background: var(--surface-2);
+  border-radius: 18px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+}
+
+.table {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 150px 120px minmax(0, 1fr) 120px 90px;
+  gap: 1rem;
+  padding: 0.7rem 0.6rem;
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row span:nth-child(3) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.row.header {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.row:not(.header):hover {
+  background: rgba(54, 126, 187, 0.08);
+}
+
+.empty {
+  text-align: center;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.primary {
+  justify-self: center;
+  padding: 0.7rem 1.2rem;
+  border-radius: 12px;
+  background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .row.header {
+    display: none;
+  }
+}

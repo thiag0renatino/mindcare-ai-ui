@@ -1,0 +1,215 @@
+.analysis {
+  display: grid;
+  gap: 1.8rem;
+}
+
+.analysis-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.analysis-header h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.5rem;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--surface-2);
+  border-radius: 18px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+}
+
+.form-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+label {
+  font-size: 0.85rem;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+input,
+textarea {
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  font-family: inherit;
+}
+
+.primary {
+  background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary[disabled] {
+  opacity: 0.7;
+}
+
+.error {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.progress-card {
+  display: grid;
+  gap: 1.2rem;
+  align-content: start;
+}
+
+
+.steps {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.step .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+}
+
+.step.active {
+  color: var(--accent-1);
+}
+
+.step.active .dot {
+  background: var(--accent-1);
+  box-shadow: 0 0 0 5px rgba(27, 154, 170, 0.2);
+}
+
+.step.done {
+  color: var(--accent-2);
+}
+
+.step.done .dot {
+  background: var(--accent-2);
+}
+
+.result-actions {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.ghost {
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ghost.success {
+  border-color: rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+}
+
+
+.results {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.risk {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+}
+
+.risk-low {
+  background: rgba(34, 197, 94, 0.15);
+  color: #166534;
+}
+
+.risk-moderate {
+  background: rgba(245, 158, 11, 0.18);
+  color: #92400e;
+}
+
+.risk-high {
+  background: rgba(239, 68, 68, 0.18);
+  color: #991b1b;
+}
+
+.risk-unknown {
+  background: rgba(148, 163, 184, 0.2);
+  color: #475569;
+}
+
+.label {
+  color: var(--ink-3);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0.8rem 0 0.3rem;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.grid strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ink-1);
+}
+
+@media (max-width: 1100px) {
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+}
