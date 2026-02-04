@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 
 import { HistoryService } from '../../core/services/history.service';
-import { StoredAnalysis } from '../../models/mindcheck.models';
+import { EncaminhamentoResponse, TriagemResponse } from '../../models/mindcheck.models';
 
 @Component({
   selector: 'app-analysis-details',
@@ -13,9 +13,10 @@ import { StoredAnalysis } from '../../models/mindcheck.models';
   styleUrl: './analysis-details.component.css'
 })
 export class AnalysisDetailsComponent implements OnInit {
-  entry: StoredAnalysis | null = null;
-  activeTab = 'Requisição';
-  tabs = ['Requisição', 'Resultado da IA', 'Triagem persistida', 'Encaminhamento'];
+  entry: TriagemResponse | null = null;
+  encaminhamentos: EncaminhamentoResponse[] = [];
+  loading = true;
+  errorMessage = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -24,26 +25,47 @@ export class AnalysisDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (!idParam) {
+      this.loading = false;
       return;
     }
-    this.entry = this.historyService.getById(id) ?? null;
-    if (this.entry && !this.entry.response.encaminhamento) {
-      this.tabs = this.tabs.filter((tab) => tab !== 'Encaminhamento');
+    const id = Number(idParam);
+    if (!Number.isFinite(id)) {
+      this.loading = false;
+      return;
     }
-  }
-
-  setTab(tab: string): void {
-    this.activeTab = tab;
+    this.historyService.getById(id).subscribe({
+      next: (triagem) => {
+        this.entry = triagem;
+        this.loading = false;
+        this.loadEncaminhamentos(triagem);
+      },
+      error: () => {
+        this.errorMessage = 'Não foi possível carregar os detalhes da triagem.';
+        this.loading = false;
+      }
+    });
   }
 
   runAgain(): void {
     if (!this.entry) {
       return;
     }
-    this.historyService.saveDraft(this.entry.request);
+    this.historyService.saveDraft({
+      usuarioId: this.entry.usuario?.id ?? null,
+      relato: this.entry.relato ?? ''
+    });
     this.router.navigate(['/analysis/new']);
+  }
+
+  private loadEncaminhamentos(triagem: TriagemResponse): void {
+    const risco = (triagem.risco ?? '').toUpperCase();
+    if ((risco === 'ALTO' || risco === 'MODERADO') && triagem.id) {
+      this.historyService.getEncaminhamentosByTriagem(triagem.id).subscribe({
+        next: (data) => (this.encaminhamentos = data),
+      });
+    }
   }
 
   riskClass(risk: string | undefined): string {

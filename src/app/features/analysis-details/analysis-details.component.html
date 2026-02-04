@@ -1,141 +1,113 @@
-<section class="details" *ngIf="entry; else missing">
+<div class="card" *ngIf="loading">
+  <p>Carregando detalhes...</p>
+</div>
+
+<div class="card" *ngIf="errorMessage">
+  <p class="error">{{ errorMessage }}</p>
+</div>
+
+<section class="details" *ngIf="!loading && !errorMessage && entry; else missing">
   <div class="details-header">
     <div>
-      <h2>Detalhes da análise</h2>
-      <p>Salvo em {{ entry?.createdAt | date: 'medium' }}</p>
+      <h2>Detalhes da triagem</h2>
+      <p>Registrada em {{ entry?.dataHora | date: 'medium' }}</p>
     </div>
     <button class="primary" type="button" (click)="runAgain()">Executar novamente</button>
   </div>
 
-  <div class="tabs">
-    <button
-      type="button"
-      *ngFor="let tab of tabs"
-      [class.active]="tab === activeTab"
-      (click)="setTab(tab)"
-    >
-      {{ tab }}
-    </button>
-  </div>
-
-  <div class="card" *ngIf="activeTab === 'Requisição'">
-    <div class="grid">
-      <div>
-        <span class="label">humor</span>
-        <strong>{{ entry?.request?.humor || '—' }}</strong>
-      </div>
-    </div>
-    <p class="label">relato</p>
-    <p>{{ entry?.request?.relato || '—' }}</p>
-    <p class="label">sintomas</p>
-    <p>{{ entry?.request?.sintomas || '—' }}</p>
-    <p class="label">rotina</p>
-    <p>{{ entry?.request?.rotina || '—' }}</p>
-  </div>
-
-  <div class="card" *ngIf="activeTab === 'Resultado da IA'">
-    <div class="card-title">
-      <h3>Resultado da IA</h3>
-      <span class="risk" [class]="riskClass(entry?.response?.risco)">{{ entry?.response?.risco || 'DESCONHECIDO' }}</span>
-    </div>
-    <p class="label">Justificativa</p>
-    <p>{{ entry?.response?.justificativa || 'Nenhuma justificativa retornada.' }}</p>
-    <div class="columns">
-      <div>
-        <p class="label">Sugestões</p>
-        <ul>
-          <li *ngFor="let suggestion of entry?.response?.sugestoes">{{ suggestion }}</li>
-          <li *ngIf="!entry?.response?.sugestoes?.length">Nenhuma sugestão retornada.</li>
-        </ul>
-      </div>
-      <div>
-        <p class="label">Encaminhamentos sugeridos</p>
-        <ul>
-          <li *ngFor="let item of entry?.response?.encaminhamentos">{{ item }}</li>
-          <li *ngIf="!entry?.response?.encaminhamentos?.length">Nenhum encaminhamento sugerido.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" *ngIf="activeTab === 'Triagem persistida'">
+  <div class="card">
     <div class="grid">
       <div>
         <span class="label">triagem código</span>
-        <strong>{{ entry?.response?.triagem?.id ?? '—' }}</strong>
+        <strong>{{ entry?.id ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">usuario código</span>
-        <strong>{{ entry?.response?.triagem?.usuario?.id ?? '—' }}</strong>
+        <strong>{{ entry?.usuario?.id ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">data e hora</span>
-        <strong>{{ entry?.response?.triagem?.dataHora ?? '—' }}</strong>
+        <strong>{{ entry?.dataHora ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">risco</span>
-        <strong>{{ entry?.response?.triagem?.risco ?? entry?.response?.risco ?? '—' }}</strong>
+        <span class="risk" [class]="riskClass(entry?.risco)">{{ entry?.risco ?? 'DESCONHECIDO' }}</span>
       </div>
     </div>
     <p class="label">Relato</p>
-    <p>{{ entry?.response?.triagem?.relato || 'Nenhum relato persistido.' }}</p>
+    <p>{{ entry?.relato || 'Nenhum relato persistido.' }}</p>
     <p class="label">Observações da triagem</p>
-    <p>{{ entry?.response?.triagem?.sugestao || 'Nenhuma observação retornada.' }}</p>
+    <p>{{ entry?.sugestao || 'Nenhuma observação retornada.' }}</p>
   </div>
 
-  <div class="card" *ngIf="activeTab === 'Encaminhamento'">
+  <div class="card" *ngIf="entry?.usuario">
+    <h3>Usuário</h3>
+    <div class="grid">
+      <div>
+        <span class="label">nome</span>
+        <strong>{{ entry?.usuario?.nome ?? '—' }}</strong>
+      </div>
+      <div>
+        <span class="label">email</span>
+        <strong>{{ entry?.usuario?.email ?? '—' }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" *ngFor="let enc of encaminhamentos">
+    <h3>Encaminhamento</h3>
     <div class="grid">
       <div>
         <span class="label">encaminhamento código</span>
-        <strong>{{ entry?.response?.encaminhamento?.id ?? '—' }}</strong>
+        <strong>{{ enc.id ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">prioridade</span>
-        <strong>{{ entry?.response?.encaminhamento?.prioridade ?? '—' }}</strong>
+        <strong>{{ enc.prioridade ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">especialidade</span>
-        <strong>{{ entry?.response?.encaminhamento?.especialidade ?? '—' }}</strong>
+        <strong>{{ enc.especialidade ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">status</span>
-        <strong>{{ entry?.response?.encaminhamento?.status ?? '—' }}</strong>
+        <strong>{{ enc.status ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">tipo</span>
-        <strong>{{ entry?.response?.encaminhamento?.tipo ?? '—' }}</strong>
+        <strong>{{ enc.tipo ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">exame</span>
-        <strong>{{ entry?.response?.encaminhamento?.exame ?? '—' }}</strong>
+        <strong>{{ enc.exame ?? '—' }}</strong>
       </div>
     </div>
     <p class="label">Detalhes</p>
-    <p>{{ entry?.response?.encaminhamento?.observacao || 'Encaminhamento criado automaticamente.' }}</p>
-    <div class="grid" *ngIf="entry?.response?.encaminhamento?.profissional">
+    <p>{{ enc.observacao || 'Encaminhamento criado automaticamente.' }}</p>
+    <div class="grid" *ngIf="enc.profissional">
       <div>
         <span class="label">profissional</span>
-        <strong>{{ entry?.response?.encaminhamento?.profissional?.nome ?? '—' }}</strong>
+        <strong>{{ enc.profissional?.nome ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">especialidade</span>
-        <strong>{{ entry?.response?.encaminhamento?.profissional?.especialidade ?? '—' }}</strong>
+        <strong>{{ enc.profissional?.especialidade ?? '—' }}</strong>
       </div>
       <div>
-        <span class="label">convenio</span>
-        <strong>{{ entry?.response?.encaminhamento?.profissional?.convenio ?? '—' }}</strong>
+        <span class="label">convênio</span>
+        <strong>{{ enc.profissional?.convenio ?? '—' }}</strong>
       </div>
       <div>
         <span class="label">contato</span>
-        <strong>{{ entry?.response?.encaminhamento?.profissional?.contato ?? '—' }}</strong>
+        <strong>{{ enc.profissional?.contato ?? '—' }}</strong>
       </div>
     </div>
   </div>
 </section>
 
 <ng-template #missing>
-  <div class="card empty">
-    <h3>Análise não encontrada</h3>
+  <div class="card empty" *ngIf="!loading && !errorMessage">
+    <h3>Triagem não encontrada</h3>
     <p>Volte ao histórico e selecione outra entrada.</p>
   </div>
 </ng-template>
