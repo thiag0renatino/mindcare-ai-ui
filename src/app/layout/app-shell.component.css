@@ -67,37 +67,61 @@
 
 .sidebar-footer {
   margin-top: auto;
-  display: grid;
-  gap: 1rem;
 }
 
-.status-pill {
-  padding: 0.6rem 0.8rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--accent-1);
-  background: rgba(0, 150, 136, 0.12);
-}
-
-.status-pill.missing {
-  color: var(--warning);
-  background: rgba(242, 153, 74, 0.14);
-}
-
-.ghost {
-  padding: 0.6rem 0.8rem;
-  background: transparent;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
+.user-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  text-decoration: none;
   color: var(--ink-2);
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
-.ghost:hover {
-  border-color: var(--accent-1);
+.user-link:hover,
+.user-link.active {
   color: var(--ink-1);
+  background: rgba(74, 144, 226, 0.12);
+  border-color: rgba(74, 144, 226, 0.3);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--surface-1);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.user-meta {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .main {

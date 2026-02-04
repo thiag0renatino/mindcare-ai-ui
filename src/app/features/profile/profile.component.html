@@ -1,0 +1,22 @@
+<section class="profile" *ngIf="user$ | async as user">
+  <div class="card user-card">
+    <div class="avatar">{{ initials }}</div>
+    <div class="user-info">
+      <h2>{{ user.nome ?? 'Sem nome' }}</h2>
+      <span class="role-badge">{{ tipoLabel(user.tipo) }}</span>
+    </div>
+  </div>
+
+  <div class="card details-card">
+    <div class="field">
+      <span class="label">Email</span>
+      <strong>{{ user.email ?? '—' }}</strong>
+    </div>
+    <div class="field">
+      <span class="label">Tipo de conta</span>
+      <strong>{{ tipoLabel(user.tipo) }}</strong>
+    </div>
+  </div>
+
+  <button class="logout-btn" type="button" (click)="logout()">Sair da conta</button>
+</section>

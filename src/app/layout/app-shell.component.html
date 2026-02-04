@@ -14,12 +14,21 @@
       <a routerLink="/about" routerLinkActive="active">Sobre</a>
     </nav>
 
-    <div class="sidebar-footer">
-      <div class="status-pill" [class.missing]="!(token$ | async)">
-        {{ (token$ | async) ? 'Sessão ativa' : 'Sessão pendente' }}
-      </div>
-      <button class="ghost" type="button" (click)="logout()">Sair</button>
-    </div>
+    <a class="sidebar-footer user-link" routerLink="/profile" routerLinkActive="active">
+      <ng-container *ngIf="user$ | async as user; else loadingUser">
+        <div class="user-avatar">{{ initials }}</div>
+        <div class="user-meta">
+          <span class="user-name">{{ user.nome ?? 'Sem nome' }}</span>
+          <span class="user-role">{{ user.tipo ?? 'Colaborador' }}</span>
+        </div>
+      </ng-container>
+      <ng-template #loadingUser>
+        <div class="user-avatar">...</div>
+        <div class="user-meta">
+          <span class="user-name">Carregando...</span>
+        </div>
+      </ng-template>
+    </a>
   </aside>
 
   <div class="main">

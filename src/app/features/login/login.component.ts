@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 import { AuthService } from '../../core/services/auth.service';
-import { UserService } from '../../core/services/user.service';
+import { UserProfileService } from '../../core/services/user-profile.service';
 import { UserContextService } from '../../core/services/user-context.service';
 import { ToastService } from '../../core/services/toast.service';
 
@@ -27,7 +27,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private userService: UserService,
+    private userProfileService: UserProfileService,
     private userContextService: UserContextService,
     private toastService: ToastService,
     private router: Router
@@ -46,7 +46,7 @@ export class LoginComponent {
     };
     this.authService.signIn(payload).subscribe({
       next: () => {
-        this.userService.me().subscribe({
+        this.userProfileService.load().subscribe({
           next: (user) => {
             if (user?.id) {
               this.userContextService.setUsuarioId(user.id);
