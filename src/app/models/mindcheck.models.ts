@@ -53,9 +53,13 @@ export interface ProfissionalResponse {
   contato?: string;
 }
 
-export interface StoredAnalysis {
-  id: string;
-  createdAt: string;
-  request: MindCheckAiRequest;
-  response: MindCheckAiResponse;
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
 }
