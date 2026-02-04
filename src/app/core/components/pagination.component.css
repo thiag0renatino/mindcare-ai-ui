@@ -1,0 +1,42 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding-top: 1.2rem;
+}
+
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.page-btn:hover:not(:disabled):not(.active) {
+  background: rgba(54, 126, 187, 0.08);
+  border-color: var(--accent-1);
+}
+
+.page-btn.active {
+  background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  color: white;
+  border-color: transparent;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.page-info {
+  margin-left: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
