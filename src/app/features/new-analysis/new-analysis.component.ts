@@ -28,7 +28,6 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
   loading = false;
   errorMessage = '';
   result: MindCheckAiResponse | null = null;
-  savedMessage = '';
   copiedMessage = '';
 
   steps = [
@@ -39,7 +38,6 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
   ];
 
   private stepTimer: number | null = null;
-  private savedTimer: number | null = null;
   private copiedTimer: number | null = null;
 
   constructor(
@@ -98,16 +96,6 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveHistory(): void {
-    if (!this.result) {
-      return;
-    }
-    const entry = this.historyService.createEntry(this.buildPayload(), this.result);
-    this.historyService.add(entry);
-    this.savedMessage = 'Salvo no histórico.';
-    this.resetMessageTimer('saved');
-  }
-
   copySummary(): void {
     if (!this.result) {
       return;
@@ -116,7 +104,7 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(raw);
       this.copiedMessage = 'Resumo copiado.';
-      this.resetMessageTimer('copied');
+      this.resetCopiedTimer();
       return;
     }
     const fallback = document.createElement('textarea');
@@ -126,7 +114,7 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     document.execCommand('copy');
     fallback.remove();
     this.copiedMessage = 'Resumo copiado.';
-    this.resetMessageTimer('copied');
+    this.resetCopiedTimer();
   }
 
   resetForm(): void {
@@ -245,30 +233,16 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     }
   }
 
-  private resetMessageTimer(type: 'saved' | 'copied'): void {
-    const timerRef = type === 'saved' ? this.savedTimer : this.copiedTimer;
-    if (timerRef) {
-      window.clearTimeout(timerRef);
+  private resetCopiedTimer(): void {
+    if (this.copiedTimer) {
+      window.clearTimeout(this.copiedTimer);
     }
-    const nextTimer = window.setTimeout(() => {
-      if (type === 'saved') {
-        this.savedMessage = '';
-      } else {
-        this.copiedMessage = '';
-      }
+    this.copiedTimer = window.setTimeout(() => {
+      this.copiedMessage = '';
     }, 1800);
-    if (type === 'saved') {
-      this.savedTimer = nextTimer;
-    } else {
-      this.copiedTimer = nextTimer;
-    }
   }
 
   private clearTimers(): void {
-    if (this.savedTimer) {
-      window.clearTimeout(this.savedTimer);
-      this.savedTimer = null;
-    }
     if (this.copiedTimer) {
       window.clearTimeout(this.copiedTimer);
       this.copiedTimer = null;

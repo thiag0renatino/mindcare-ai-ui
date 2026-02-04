@@ -45,9 +45,6 @@
       </div>
 
       <div class="result-actions" *ngIf="result">
-        <button class="ghost" type="button" (click)="saveHistory()" [class.success]="savedMessage">
-          {{ savedMessage ? 'Salvo no histórico' : 'Salvar no histórico' }}
-        </button>
         <button class="ghost" type="button" (click)="copySummary()" [class.success]="copiedMessage">
           {{ copiedMessage ? 'Resumo copiado' : 'Copiar resumo' }}
         </button>
