@@ -1,30 +1,52 @@
-import { Injectable } from '@angular/core';
-import { MindCheckAiRequest, MindCheckAiResponse, StoredAnalysis } from '../../models/mindcheck.models';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
-const HISTORY_STORAGE_KEY = 'mindcareai.history';
+import { API_BASE_URL } from '../tokens/api-base-url.token';
+import {
+  EncaminhamentoResponse,
+  MindCheckAiRequest,
+  PageResponse,
+  TriagemResponse,
+} from '../../models/mindcheck.models';
+import { UserContextService } from './user-context.service';
+
 const DRAFT_STORAGE_KEY = 'mindcareai.draft';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryService {
-  list(): StoredAnalysis[] {
-    return this.readHistory();
+  constructor(
+    private http: HttpClient,
+    @Inject(API_BASE_URL) private apiBaseUrl: string,
+    private userContextService: UserContextService,
+  ) {}
+
+  list(page = 0, size = 10): Observable<PageResponse<TriagemResponse>> {
+    const usuarioId = this.userContextService.getUsuarioId();
+    return this.http.get<PageResponse<TriagemResponse>>(
+      `${this.apiBaseUrl}/api/triagens/usuario/${usuarioId}`,
+      { params: { page: page.toString(), size: size.toString(), sort: 'dataHora,DESC' } },
+    );
   }
 
-  add(entry: StoredAnalysis): void {
-    const history = this.readHistory();
-    history.unshift(entry);
-    if (this.canUseStorage()) {
-      localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
-    }
+  getById(id: number): Observable<TriagemResponse> {
+    return this.http.get<TriagemResponse>(
+      `${this.apiBaseUrl}/api/triagens/${id}`,
+    );
   }
 
-  getById(id: string): StoredAnalysis | undefined {
-    return this.readHistory().find((item) => item.id === id);
+  getEncaminhamentosByTriagem(triagemId: number): Observable<EncaminhamentoResponse[]> {
+    return this.http
+      .get<PageResponse<EncaminhamentoResponse>>(
+        `${this.apiBaseUrl}/api/encaminhamentos/triagem/${triagemId}`,
+        { params: { page: '0', size: '20', sort: 'id,DESC' } },
+      )
+      .pipe(map((page) => page.content));
   }
 
   saveDraft(request: MindCheckAiRequest): void {
     if (this.canUseStorage()) {
-      localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(request));
+      localStorage.setItem(this.draftStorageKey(), JSON.stringify(request));
     }
   }
 
@@ -32,46 +54,22 @@ export class HistoryService {
     if (!this.canUseStorage()) {
       return null;
     }
-    const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+    const raw = localStorage.getItem(this.draftStorageKey());
     if (!raw) {
       return null;
     }
-    localStorage.removeItem(DRAFT_STORAGE_KEY);
+    localStorage.removeItem(this.draftStorageKey());
     return JSON.parse(raw) as MindCheckAiRequest;
-  }
-
-  private readHistory(): StoredAnalysis[] {
-    if (!this.canUseStorage()) {
-      return [];
-    }
-    const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
-    if (!raw) {
-      return [];
-    }
-    try {
-      return JSON.parse(raw) as StoredAnalysis[];
-    } catch {
-      return [];
-    }
-  }
-
-  createEntry(request: MindCheckAiRequest, response: MindCheckAiResponse): StoredAnalysis {
-    return {
-      id: this.createId(),
-      createdAt: new Date().toISOString(),
-      request,
-      response
-    };
-  }
-
-  private createId(): string {
-    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-      return crypto.randomUUID();
-    }
-    return `analysis-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
   }
 
   private canUseStorage(): boolean {
     return typeof window !== 'undefined' && !!window.localStorage;
+  }
+
+  private draftStorageKey(): string {
+    const userId = this.userContextService.getUsuarioId();
+    return userId
+      ? `${DRAFT_STORAGE_KEY}.${userId}`
+      : `${DRAFT_STORAGE_KEY}.anonymous`;
   }
 }
