@@ -38,10 +38,16 @@ export interface EncaminhamentoResponse {
   profissional?: ProfissionalResponse;
 }
 
+export interface EmpresaResponse {
+  id?: number;
+  nome?: string;
+}
+
 export interface UsuarioResponse {
   id?: number;
   nome?: string;
   email?: string;
+  empresa?: EmpresaResponse;
   tipo?: string;
 }
 
