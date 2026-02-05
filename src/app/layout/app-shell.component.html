@@ -19,7 +19,7 @@
         <div class="user-avatar">{{ initials }}</div>
         <div class="user-meta">
           <span class="user-name">{{ user.nome ?? 'Sem nome' }}</span>
-          <span class="user-role">{{ user.tipo ?? 'Colaborador' }}</span>
+          <span class="user-role">{{ user.empresa?.nome ?? 'Sem empresa' }}</span>
         </div>
       </ng-container>
       <ng-template #loadingUser>
