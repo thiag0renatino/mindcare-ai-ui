@@ -2,41 +2,44 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   padding-top: 1.2rem;
 }
 
 .page-btn {
   min-width: 36px;
   height: 36px;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
   background: var(--surface-2);
-  color: inherit;
-  font-size: 0.875rem;
+  color: var(--ink-2);
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: all var(--duration-fast);
 }
 
 .page-btn:hover:not(:disabled):not(.active) {
-  background: rgba(54, 126, 187, 0.08);
   border-color: var(--accent-1);
+  color: var(--accent-1);
+  background: var(--accent-subtle);
 }
 
 .page-btn.active {
-  background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
-  color: white;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: #fff;
   border-color: transparent;
+  font-weight: 600;
+  box-shadow: 0 2px 8px -2px rgba(59, 130, 246, 0.35);
 }
 
 .page-btn:disabled {
-  opacity: 0.4;
+  opacity: 0.3;
   cursor: default;
 }
 
 .page-info {
   margin-left: 0.8rem;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--ink-3);
 }
