@@ -59,19 +59,36 @@ export class RegisterComponent {
   }
 
   private formatRegisterError(error: unknown): string {
-    const payload = (error as { error?: unknown })?.error;
-    if (typeof payload === 'string' && payload.trim()) {
-      return payload;
+    const rawPayload = (error as { error?: unknown })?.error;
+
+    // Se o payload for uma string JSON, tenta fazer parse
+    let payload: unknown = rawPayload;
+    if (typeof rawPayload === 'string' && rawPayload.trim()) {
+      try {
+        payload = JSON.parse(rawPayload);
+      } catch {
+        return rawPayload;
+      }
     }
+
+    // Extrai a mensagem do objeto de erro
     if (typeof (payload as { message?: string })?.message === 'string') {
-      return (payload as { message: string }).message;
+      let message = (payload as { message: string }).message;
+      // Remove prefixos técnicos da mensagem
+      message = message.replace(/^(Business rule violation|Resource not found):\s*/i, '');
+      return message;
     }
+
     if (typeof (payload as { details?: string })?.details === 'string') {
-      return (payload as { details: string }).details;
+      const details = (payload as { details: string }).details;
+      if (!details.startsWith('uri=')) {
+        return details;
+      }
     }
+
     const status = (error as { status?: number })?.status;
-    if (status === 409) {
-      return 'Já existe um usuário com este e-mail.';
+    if (status === 409 || status === 400) {
+      return 'Credenciais inválidas.';
     }
     return 'Não foi possível cadastrar. Verifique os dados e tente novamente.';
   }

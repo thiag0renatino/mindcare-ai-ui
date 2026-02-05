@@ -10,20 +10,24 @@
       <section class="panel">
         <h2>Entrar</h2>
         <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
-          <label>
-            Email
-            <input type="email" formControlName="email" placeholder="usuario@mindcare.ai" />
-          </label>
-          <small class="field-error" *ngIf="signInForm.get('email')?.touched && signInForm.get('email')?.invalid">
-            Informe um email válido.
-          </small>
-          <label>
-            Senha
-            <input type="password" formControlName="senha" placeholder="••••••••" />
-          </label>
-          <small class="field-error" *ngIf="signInForm.get('senha')?.touched && signInForm.get('senha')?.invalid">
-            A senha é obrigatória.
-          </small>
+          <div class="field-group">
+            <label>
+              Email
+              <input type="email" formControlName="email" placeholder="usuario@mindcare.ai" />
+            </label>
+            <small class="field-error" [class.visible]="signInForm.get('email')?.touched && signInForm.get('email')?.invalid">
+              Informe um email válido.
+            </small>
+          </div>
+          <div class="field-group">
+            <label>
+              Senha
+              <input type="password" formControlName="senha" placeholder="••••••••" />
+            </label>
+            <small class="field-error" [class.visible]="signInForm.get('senha')?.touched && signInForm.get('senha')?.invalid">
+              A senha é obrigatória.
+            </small>
+          </div>
           <button type="submit" class="primary" [disabled]="loadingSignIn">
             {{ loadingSignIn ? 'Entrando...' : 'Entrar' }}
           </button>

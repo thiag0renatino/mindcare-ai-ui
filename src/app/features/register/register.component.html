@@ -8,42 +8,44 @@
 
     <section class="panel">
       <h2>Cadastrar</h2>
-      <p>Informe seus dados e a empresa para criar uma nova conta.</p>
+      <p>Informe seus dados e a empresa.</p>
       <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
-        <label>
-          Nome completo
-          <input type="text" formControlName="nome" placeholder="" />
-        </label>
-        <small class="field-error" *ngIf="registerForm.get('nome')?.touched && registerForm.get('nome')?.invalid">
-          Informe um nome válido.
-        </small>
-        <label>
-          Empresa
-          <input type="text" formControlName="empresa" placeholder="MindCare Solutions" />
-        </label>
-        <small
-          class="field-error"
-          *ngIf="registerForm.get('empresa')?.touched && registerForm.get('empresa')?.invalid"
-        >
-          O nome da empresa é obrigatório.
-        </small>
-        <label>
-          Email
-          <input type="email" formControlName="email" placeholder="email@empresa.com" />
-        </label>
-        <small class="field-error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
-          Informe um email válido.
-        </small>
-        <label>
-          Senha
-          <input type="password" formControlName="senha" placeholder="No mínimo 6 caracteres" />
-        </label>
-        <small
-          class="field-error"
-          *ngIf="registerForm.get('senha')?.touched && registerForm.get('senha')?.invalid"
-        >
-          A senha deve ter pelo menos 6 caracteres.
-        </small>
+        <div class="field-group">
+          <label>
+            Nome completo
+            <input type="text" formControlName="nome" placeholder="Nome Completo" />
+          </label>
+          <small class="field-error" [class.visible]="registerForm.get('nome')?.touched && registerForm.get('nome')?.invalid">
+            Informe um nome válido.
+          </small>
+        </div>
+        <div class="field-group">
+          <label>
+            Empresa
+            <input type="text" formControlName="empresa" placeholder="MindCare Solutions" />
+          </label>
+          <small class="field-error" [class.visible]="registerForm.get('empresa')?.touched && registerForm.get('empresa')?.invalid">
+            O nome da empresa é obrigatório.
+          </small>
+        </div>
+        <div class="field-group">
+          <label>
+            Email
+            <input type="email" formControlName="email" placeholder="email@empresa.com" />
+          </label>
+          <small class="field-error" [class.visible]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+            Informe um email válido.
+          </small>
+        </div>
+        <div class="field-group">
+          <label>
+            Senha
+            <input type="password" formControlName="senha" placeholder="No mínimo 6 caracteres" />
+          </label>
+          <small class="field-error" [class.visible]="registerForm.get('senha')?.touched && registerForm.get('senha')?.invalid">
+            A senha deve ter pelo menos 6 caracteres.
+          </small>
+        </div>
         <button type="submit" class="primary" [disabled]="loading">
           {{ loading ? 'Cadastrando...' : 'Criar conta' }}
         </button>
