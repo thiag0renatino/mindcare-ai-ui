@@ -1,44 +1,151 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
 
 :root {
   color-scheme: light;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --surface-1: #f5f7fb;
+
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ── Surfaces: clean whites & cool grays ── */
+  --surface-0: #f0f4f8;
+  --surface-1: #f7f9fc;
   --surface-2: #ffffff;
-  --ink-1: #102a43;
-  --ink-2: #4a5568;
-  --ink-3: #7a8aa0;
-  --accent-1: #1b9aaa;
-  --accent-2: #367ebb;
+  --surface-3: #edf2f7;
+
+  /* ── Text / Ink ── */
+  --ink-0: #0f2137;
+  --ink-1: #334e68;
+  --ink-2: #627d98;
+  --ink-3: #9fb3c8;
+
+  /* ── Accent: serene blue ── */
+  --accent-1: #3b82f6;
+  --accent-2: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.12);
+  --accent-subtle: rgba(59, 130, 246, 0.06);
+
+  /* ── Semantic ── */
+  --success: #16a34a;
+  --success-bg: rgba(22, 163, 74, 0.08);
+  --success-border: rgba(22, 163, 74, 0.2);
   --warning: #d97706;
-  --border-subtle: #e0e7ef;
-  --shadow-card: 0 24px 40px -40px rgba(16, 42, 67, 0.4);
+  --warning-bg: rgba(217, 119, 6, 0.08);
+  --warning-border: rgba(217, 119, 6, 0.2);
+  --danger: #dc2626;
+  --danger-bg: rgba(220, 38, 38, 0.06);
+  --danger-border: rgba(220, 38, 38, 0.18);
+  --info: #0284c7;
+  --info-bg: rgba(2, 132, 199, 0.06);
+  --info-border: rgba(2, 132, 199, 0.18);
+
+  /* ── Borders ── */
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-accent: rgba(59, 130, 246, 0.35);
+
+  /* ── Radius ── */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+
+  /* ── Shadows: soft, layered ── */
+  --shadow-card: 0 1px 3px rgba(15, 33, 55, 0.06), 0 6px 16px -6px rgba(15, 33, 55, 0.08);
+  --shadow-elevated: 0 4px 12px rgba(15, 33, 55, 0.08), 0 20px 40px -12px rgba(15, 33, 55, 0.12);
+  --shadow-glow: 0 0 40px -10px rgba(59, 130, 246, 0.15);
+
+  /* ── Transitions ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.15s;
+  --duration-normal: 0.25s;
+  --duration-slow: 0.4s;
 }
 
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(27, 154, 170, 0.14), transparent 45%),
-    radial-gradient(circle at 85% 0%, rgba(54, 126, 187, 0.12), transparent 40%),
-    var(--surface-1);
+  font-family: var(--font-body);
+  background: var(--surface-0);
   color: var(--ink-1);
+  line-height: 1.6;
+  overflow: hidden;
 }
 
-button,
-input,
-textarea {
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(59, 130, 246, 0.06), transparent),
+    radial-gradient(ellipse 60% 80% at 90% 100%, rgba(37, 99, 235, 0.04), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+button, input, textarea {
   font-family: inherit;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--ink-1);
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ink-0);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(15, 33, 55, 0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(15, 33, 55, 0.22); }
+
+::selection {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--ink-0);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-1);
+  outline-offset: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
 }
