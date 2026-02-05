@@ -127,6 +127,7 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     this.result = null;
     this.errorMessage = '';
     this.stopProgress();
+    this.steps = this.steps.map((step) => ({ ...step, state: 'pending' as StepState }));
   }
 
   riskClass(risk: string | undefined): string {

@@ -1,6 +1,7 @@
 .analysis {
   display: grid;
   gap: 1.8rem;
+  animation: fadeIn var(--duration-slow) var(--ease-out);
 }
 
 .analysis-header {
@@ -11,8 +12,15 @@
 }
 
 .analysis-header h2 {
-  margin: 0 0 0.4rem;
-  font-size: 1.5rem;
+  margin: 0 0 0.3rem;
+  font-size: 1.4rem;
+  color: var(--ink-0);
+}
+
+.analysis-header p {
+  margin: 0;
+  color: var(--ink-3);
+  font-size: 0.88rem;
 }
 
 .analysis-grid {
@@ -23,10 +31,15 @@
 
 .card {
   background: var(--surface-2);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-card);
+  transition: border-color var(--duration-normal);
+}
+
+.card:hover {
+  border-color: var(--border-medium);
 }
 
 .form-card {
@@ -34,42 +47,81 @@
   gap: 1rem;
 }
 
+.form-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ink-0);
+}
+
 .field {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--ink-2);
-  font-weight: 600;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 input,
 textarea {
-  padding: 0.75rem 0.9rem;
-  border-radius: 12px;
-  border: 1px solid var(--border-subtle);
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
   font-family: inherit;
+  background: var(--surface-2);
+  color: var(--ink-0);
+  font-size: 0.9rem;
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-3);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-1);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .primary {
-  background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: #fff;
   border: none;
-  padding: 0.8rem 1rem;
-  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: all var(--duration-normal) var(--ease-out);
+  box-shadow: 0 2px 8px -2px rgba(59, 130, 246, 0.35);
+}
+
+.primary:hover:not([disabled]) {
+  box-shadow: 0 4px 16px -2px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
 }
 
 .primary[disabled] {
-  opacity: 0.7;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .error {
-  color: var(--warning);
+  color: var(--danger);
   font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--danger-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--danger-border);
 }
 
 .progress-card {
@@ -78,25 +130,36 @@ textarea {
   align-content: start;
 }
 
+.progress-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--ink-0);
+}
 
 .steps {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.7rem;
 }
 
 .step {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   color: var(--ink-3);
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 0.88rem;
+  padding: 0.4rem 0;
+  transition: color var(--duration-normal);
 }
 
 .step .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--border-subtle);
+  background: var(--surface-3);
+  border: 2px solid var(--border-medium);
+  flex-shrink: 0;
+  transition: all var(--duration-normal) var(--ease-out);
 }
 
 .step.active {
@@ -105,15 +168,17 @@ textarea {
 
 .step.active .dot {
   background: var(--accent-1);
-  box-shadow: 0 0 0 5px rgba(27, 154, 170, 0.2);
+  border-color: var(--accent-1);
+  animation: breathe 2s ease-in-out infinite;
 }
 
 .step.done {
-  color: var(--accent-2);
+  color: var(--success);
 }
 
 .step.done .dot {
-  background: var(--accent-2);
+  background: var(--success);
+  border-color: var(--success);
 }
 
 .result-actions {
@@ -122,20 +187,28 @@ textarea {
 }
 
 .ghost {
-  padding: 0.65rem 0.9rem;
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
   background: transparent;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  transition: all var(--duration-fast);
+}
+
+.ghost:hover {
+  border-color: var(--accent-1);
+  color: var(--accent-1);
+  background: var(--accent-subtle);
 }
 
 .ghost.success {
-  border-color: rgba(34, 197, 94, 0.5);
-  background: rgba(34, 197, 94, 0.12);
-  color: #166534;
+  border-color: var(--success-border);
+  background: var(--success-bg);
+  color: var(--success);
 }
-
 
 .results {
   display: grid;
@@ -149,45 +222,62 @@ textarea {
   gap: 1rem;
 }
 
+.card-title h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
 .risk {
-  padding: 0.3rem 0.8rem;
-  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
   font-weight: 700;
   letter-spacing: 0.06em;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
 }
 
 .risk-low {
-  background: rgba(34, 197, 94, 0.15);
-  color: #166534;
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
 }
 
 .risk-moderate {
-  background: rgba(245, 158, 11, 0.18);
-  color: #92400e;
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
 }
 
 .risk-high {
-  background: rgba(239, 68, 68, 0.18);
-  color: #991b1b;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
 }
 
 .risk-unknown {
-  background: rgba(148, 163, 184, 0.2);
-  color: #475569;
+  background: var(--surface-3);
+  color: var(--ink-2);
+  border: 1px solid var(--border-medium);
 }
 
 .label {
   color: var(--ink-3);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0.8rem 0 0.3rem;
+  font-weight: 500;
 }
 
 ul {
   margin: 0;
   padding-left: 1.1rem;
+  color: var(--ink-1);
+}
+
+ul li {
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
 }
 
 .columns {
@@ -204,8 +294,8 @@ ul {
 
 .grid strong {
   display: block;
-  font-size: 0.95rem;
-  color: var(--ink-1);
+  font-size: 0.92rem;
+  color: var(--ink-0);
 }
 
 @media (max-width: 1100px) {
