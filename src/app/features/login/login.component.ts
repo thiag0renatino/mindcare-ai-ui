@@ -7,11 +7,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserProfileService } from '../../core/services/user-profile.service';
 import { UserContextService } from '../../core/services/user-context.service';
 import { ToastService } from '../../core/services/toast.service';
+import { CapsLockDirective } from '../../core/directives/caps-lock.directive';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, NgIf],
+  imports: [ReactiveFormsModule, RouterLink, NgIf, CapsLockDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -23,6 +24,7 @@ export class LoginComponent {
 
   loadingSignIn = false;
   errorMessage = '';
+  capsLockOn = false;
 
   constructor(
     private fb: FormBuilder,

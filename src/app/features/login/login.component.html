@@ -1,42 +1,64 @@
 <div class="login-page">
+  <div class="login-ambient"></div>
+
   <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-icon-wrap">
+        <img src="assets/logo.png" alt="MindCare AI" />
+      </div>
+      <span class="brand-name">MindCare AI</span>
+    </div>
+
     <div class="login-hero">
-      <div class="hero-label">Bem-vindo(a) de volta</div>
-      <h1>MindCare AI</h1>
+      <h1>Bem-vindo de volta</h1>
       <p>Entre para enviar análises do MindCheck AI e revisar o histórico de triagens.</p>
     </div>
 
-    <div class="login-panels">
-      <section class="panel">
-        <h2>Entrar</h2>
-        <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
-          <div class="field-group">
-            <label>
-              Email
-              <input type="email" formControlName="email" placeholder="usuario@mindcare.ai" />
-            </label>
-            <small class="field-error" [class.visible]="signInForm.get('email')?.touched && signInForm.get('email')?.invalid">
-              Informe um email válido.
-            </small>
-          </div>
-          <div class="field-group">
-            <label>
-              Senha
-              <input type="password" formControlName="senha" placeholder="••••••••" />
-            </label>
-            <small class="field-error" [class.visible]="signInForm.get('senha')?.touched && signInForm.get('senha')?.invalid">
-              A senha é obrigatória.
-            </small>
-          </div>
-          <button type="submit" class="primary" [disabled]="loadingSignIn">
-            {{ loadingSignIn ? 'Entrando...' : 'Entrar' }}
-          </button>
-        </form>
-        <div class="login-footer" *ngIf="errorMessage">{{ errorMessage }}</div>
-        <div class="switch-link">
-          Precisa de uma conta? <a routerLink="/register">Cadastre-se</a>
-        </div>
-      </section>
+    <form class="login-form" [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="seu@email.com"
+        />
+        <small class="field-error" [class.visible]="signInForm.get('email')?.touched && signInForm.get('email')?.invalid">
+          Informe um email válido.
+        </small>
+      </div>
+
+      <div class="field-group">
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          type="password"
+          formControlName="senha"
+          placeholder="Digite sua senha"
+          appCapsLock
+          (capsLock)="capsLockOn = $event"
+        />
+        <small class="field-error" [class.visible]="signInForm.get('senha')?.touched && signInForm.get('senha')?.invalid">
+          A senha é obrigatória.
+        </small>
+        <small class="caps-warning" [class.visible]="capsLockOn">
+          Caps Lock ativado
+        </small>
+      </div>
+
+      <div class="login-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="loadingSignIn">
+        {{ loadingSignIn ? 'Entrando...' : 'Entrar na conta' }}
+      </button>
+    </form>
+
+    <div class="login-divider">
+      <span>ou</span>
+    </div>
+
+    <div class="switch-link">
+      Precisa de uma conta? <a routerLink="/register">Cadastre-se gratuitamente</a>
     </div>
   </div>
 </div>

@@ -5,11 +5,12 @@ import { NgIf } from '@angular/common';
 
 import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../core/services/toast.service';
+import { CapsLockDirective } from '../../core/directives/caps-lock.directive';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, NgIf],
+  imports: [ReactiveFormsModule, RouterLink, NgIf, CapsLockDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -23,6 +24,7 @@ export class RegisterComponent {
 
   loading = false;
   errorMessage = '';
+  capsLockOn = false;
 
   constructor(
     private fb: FormBuilder,
