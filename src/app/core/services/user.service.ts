@@ -3,7 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { API_BASE_URL } from '../tokens/api-base-url.token';
-import { UsuarioResponse } from '../../models/mindcheck.models';
+import {
+  UsuarioResponse,
+  UpdateNameRequest,
+  UpdatePasswordRequest,
+} from '../../models/mindcheck.models';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -14,5 +18,19 @@ export class UserService {
 
   me(): Observable<UsuarioResponse> {
     return this.http.get<UsuarioResponse>(`${this.apiBaseUrl}/api/usuarios/me`);
+  }
+
+  updateName(request: UpdateNameRequest): Observable<UsuarioResponse> {
+    return this.http.patch<UsuarioResponse>(
+      `${this.apiBaseUrl}/api/usuarios/me/nome`,
+      request
+    );
+  }
+
+  updatePassword(request: UpdatePasswordRequest): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiBaseUrl}/api/usuarios/me/senha`,
+      request
+    );
   }
 }

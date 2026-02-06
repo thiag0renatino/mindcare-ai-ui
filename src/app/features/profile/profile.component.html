@@ -18,5 +18,193 @@
     </div>
   </div>
 
+  <!-- Editar Nome -->
+  <div class="card edit-card">
+    <div class="card-header">
+      <h3>Nome</h3>
+      <button
+        *ngIf="!editingName"
+        type="button"
+        class="edit-btn"
+        (click)="startEditName(user.nome)"
+      >
+        Editar
+      </button>
+    </div>
+
+    <div *ngIf="!editingName" class="field-value">
+      {{ user.nome ?? 'Sem nome' }}
+    </div>
+
+    <form
+      *ngIf="editingName"
+      [formGroup]="nameForm"
+      (ngSubmit)="saveName()"
+      class="edit-form"
+    >
+      <div class="form-group">
+        <label for="nome">Novo nome</label>
+        <input
+          id="nome"
+          type="text"
+          formControlName="nome"
+          placeholder="Digite seu nome"
+          autocomplete="name"
+        />
+      </div>
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn-cancel"
+          (click)="cancelEditName()"
+          [disabled]="savingName"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn-save"
+          [disabled]="nameForm.invalid || savingName"
+        >
+          {{ savingName ? 'Salvando...' : 'Salvar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Alterar Senha -->
+  <div class="card edit-card">
+    <div class="card-header">
+      <h3>Senha</h3>
+      <button
+        *ngIf="!editingPassword"
+        type="button"
+        class="edit-btn"
+        (click)="startEditPassword()"
+      >
+        Alterar
+      </button>
+    </div>
+
+    <div *ngIf="!editingPassword" class="field-value muted">
+      ••••••••
+    </div>
+
+    <form
+      *ngIf="editingPassword"
+      [formGroup]="passwordForm"
+      (ngSubmit)="savePassword()"
+      class="edit-form"
+    >
+      <div class="form-group">
+        <label for="senhaAtual">Senha atual</label>
+        <div class="input-password">
+          <input
+            id="senhaAtual"
+            [type]="showSenhaAtual ? 'text' : 'password'"
+            formControlName="senhaAtual"
+            placeholder="Digite sua senha atual"
+            autocomplete="off"
+            appCapsLock
+            (capsLock)="capsLockOn = $event"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleSenhaAtual()"
+            [attr.aria-label]="showSenhaAtual ? 'Ocultar senha' : 'Mostrar senha'"
+          >
+            <svg *ngIf="!showSenhaAtual" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg *ngIf="showSenhaAtual" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="novaSenha">Nova senha</label>
+        <div class="input-password">
+          <input
+            id="novaSenha"
+            [type]="showNovaSenha ? 'text' : 'password'"
+            formControlName="novaSenha"
+            placeholder="Mínimo 6 caracteres"
+            autocomplete="off"
+            appCapsLock
+            (capsLock)="capsLockOn = $event"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleNovaSenha()"
+            [attr.aria-label]="showNovaSenha ? 'Ocultar senha' : 'Mostrar senha'"
+          >
+            <svg *ngIf="!showNovaSenha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg *ngIf="showNovaSenha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmarSenha">Confirmar nova senha</label>
+        <div class="input-password">
+          <input
+            id="confirmarSenha"
+            [type]="showConfirmarSenha ? 'text' : 'password'"
+            formControlName="confirmarSenha"
+            placeholder="Repita a nova senha"
+            autocomplete="off"
+            appCapsLock
+            (capsLock)="capsLockOn = $event"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleConfirmarSenha()"
+            [attr.aria-label]="showConfirmarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+          >
+            <svg *ngIf="!showConfirmarSenha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg *ngIf="showConfirmarSenha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <small class="caps-warning" [class.visible]="capsLockOn">
+        Caps Lock ativado
+      </small>
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn-cancel"
+          (click)="cancelEditPassword()"
+          [disabled]="savingPassword"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn-save"
+          [disabled]="passwordForm.invalid || savingPassword"
+        >
+          {{ savingPassword ? 'Salvando...' : 'Alterar senha' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
   <button class="logout-btn" type="button" (click)="logout()">Sair da conta</button>
 </section>

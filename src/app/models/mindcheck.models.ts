@@ -69,3 +69,12 @@ export interface PageResponse<T> {
   last: boolean;
   empty: boolean;
 }
+
+export interface UpdateNameRequest {
+  nomeNovo: string;
+}
+
+export interface UpdatePasswordRequest {
+  senhaAtual: string;
+  senhaNova: string;
+}
