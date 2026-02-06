@@ -16,7 +16,7 @@
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition: all var(--duration-fast) var(--ease-out);
 }
 
 .page-btn:hover:not(:disabled):not(.active) {
@@ -26,11 +26,11 @@
 }
 
 .page-btn.active {
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  background: var(--accent-1);
   color: #fff;
   border-color: transparent;
   font-weight: 600;
-  box-shadow: 0 2px 8px -2px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 2px 8px -2px rgba(61, 124, 107, 0.3);
 }
 
 .page-btn:disabled {
