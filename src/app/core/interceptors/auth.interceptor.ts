@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
 
-const PUBLIC_ENDPOINTS = ['/auth/signin', '/auth/register'];
+const PUBLIC_ENDPOINTS = ['/auth/signin', '/auth/register', '/empresas'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const isPublic = PUBLIC_ENDPOINTS.some((endpoint) => req.url.includes(endpoint));

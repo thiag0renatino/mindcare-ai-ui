@@ -25,9 +25,12 @@
 
       <div class="field-group">
         <label for="empresa">Empresa</label>
-        <input id="empresa" type="text" formControlName="empresa" placeholder="Nome da empresa" />
+        <select id="empresa" formControlName="empresa">
+          <option value="" disabled>Selecione sua empresa</option>
+          <option *ngFor="let emp of empresas$ | async" [value]="emp.nome">{{ emp.nome }}</option>
+        </select>
         <small class="field-error" [class.visible]="registerForm.get('empresa')?.touched && registerForm.get('empresa')?.invalid">
-          O nome da empresa é obrigatório.
+          Selecione uma empresa.
         </small>
       </div>
 

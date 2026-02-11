@@ -1,27 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../core/services/toast.service';
 import { CapsLockDirective } from '../../core/directives/caps-lock.directive';
+import { EmpresaService } from '../../core/services/empresa.service';
+import { EmpresaResponse } from '../../models/mindcheck.models';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, NgIf, CapsLockDirective],
+  imports: [ReactiveFormsModule, RouterLink, NgIf, NgFor, AsyncPipe, CapsLockDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   readonly registerForm = this.fb.group({
     nome: ['', [Validators.required, Validators.minLength(2)]],
-    empresa: ['', [Validators.required, Validators.minLength(2)]],
+    empresa: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required, Validators.minLength(6)]]
   });
 
+  empresas$: Observable<EmpresaResponse[]> = of([]);
   loading = false;
   errorMessage = '';
   capsLockOn = false;
@@ -30,8 +36,18 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private toastService: ToastService,
-    private router: Router
+    private empresaService: EmpresaService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: object
   ) {}
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.empresas$ = this.empresaService.listar().pipe(
+        catchError(() => of([]))
+      );
+    }
+  }
 
   submitRegister(): void {
     this.errorMessage = '';
