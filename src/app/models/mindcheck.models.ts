@@ -41,6 +41,7 @@ export interface EncaminhamentoResponse {
 export interface EmpresaResponse {
   id?: number;
   nome?: string;
+  planoSaude?: string;
 }
 
 export interface UsuarioResponse {

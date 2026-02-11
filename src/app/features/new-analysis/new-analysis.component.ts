@@ -144,6 +144,58 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     return 'risk-low';
   }
 
+  riskBannerClass(risk: string | undefined): string {
+    if (!risk) {
+      return 'risk-banner risk-banner-unknown';
+    }
+    const normalized = risk.toUpperCase();
+    if (normalized === 'ALTO') {
+      return 'risk-banner risk-banner-high';
+    }
+    if (normalized === 'MODERADO') {
+      return 'risk-banner risk-banner-moderate';
+    }
+    if (normalized === 'BAIXO') {
+      return 'risk-banner risk-banner-low';
+    }
+    return 'risk-banner risk-banner-unknown';
+  }
+
+  riskLabel(risk: string | undefined): string {
+    if (!risk) {
+      return 'Não identificado';
+    }
+    const normalized = risk.toUpperCase();
+    if (normalized === 'BAIXO') {
+      return 'Risco Baixo';
+    }
+    if (normalized === 'MODERADO') {
+      return 'Risco Moderado';
+    }
+    if (normalized === 'ALTO') {
+      return 'Risco Alto';
+    }
+    return risk;
+  }
+
+  formatDateTime(dateTime: string | undefined): string {
+    if (!dateTime) {
+      return '—';
+    }
+    try {
+      const date = new Date(dateTime);
+      return date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch {
+      return dateTime;
+    }
+  }
+
   private buildPayload(): MindCheckAiRequest {
     return {
       usuarioId: Number(this.userContextService.getUsuarioId()),

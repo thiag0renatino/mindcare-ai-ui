@@ -52,83 +52,180 @@
     </div>
   </div>
 
+  <!-- ═══ RESULTADO ═══ -->
   <div class="results" *ngIf="result">
-    <div class="card">
-      <div class="card-title">
-        <h3>Resultado da IA</h3>
-        <span class="risk" [class]="riskClass(result.risco)">{{ result.risco || 'DESCONHECIDO' }}</span>
+
+    <!-- Banner de risco -->
+    <div class="risk-banner" [class]="riskBannerClass(result.risco)">
+      <div class="risk-banner-icon">
+        <svg *ngIf="result.risco?.toUpperCase() === 'BAIXO'" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <svg *ngIf="result.risco?.toUpperCase() === 'MODERADO'" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <svg *ngIf="result.risco?.toUpperCase() === 'ALTO'" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <svg *ngIf="!result.risco || (result.risco?.toUpperCase() !== 'BAIXO' && result.risco?.toUpperCase() !== 'MODERADO' && result.risco?.toUpperCase() !== 'ALTO')" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       </div>
-      <p class="label">Justificativa</p>
-      <p>{{ result.justificativa || 'Nenhuma justificativa retornada.' }}</p>
-      <div class="columns">
-        <div>
-          <p class="label">Sugestões</p>
-          <ul>
-            <li *ngFor="let suggestion of result.sugestoes">{{ suggestion }}</li>
-            <li *ngIf="!result.sugestoes?.length">Nenhuma sugestão retornada.</li>
-          </ul>
+      <div class="risk-banner-content">
+        <span class="risk-banner-label">Nível de risco identificado</span>
+        <span class="risk-banner-level">{{ riskLabel(result.risco) }}</span>
+      </div>
+      <span class="risk-badge" [class]="riskClass(result.risco)">{{ result.risco || 'DESCONHECIDO' }}</span>
+    </div>
+
+    <!-- Justificativa -->
+    <div class="card result-card">
+      <div class="result-card-header">
+        <h3>Justificativa da análise</h3>
+      </div>
+      <p class="result-text">{{ result.justificativa || 'Nenhuma justificativa retornada.' }}</p>
+    </div>
+
+    <!-- Sugestões e Encaminhamentos lado a lado -->
+    <div class="result-columns">
+      <div class="card result-card">
+        <div class="result-card-header">
+          <h3>Sugestões</h3>
+          <span class="result-count" *ngIf="result.sugestoes?.length">{{ result.sugestoes?.length }}</span>
         </div>
-        <div>
-          <p class="label">Encaminhamentos sugeridos</p>
-          <ul>
-            <li *ngFor="let item of result.encaminhamentos">{{ item }}</li>
-            <li *ngIf="!result.encaminhamentos?.length">Nenhum encaminhamento sugerido.</li>
-          </ul>
+        <ul class="result-list" *ngIf="result.sugestoes?.length">
+          <li *ngFor="let suggestion of result.sugestoes; let i = index">
+            <span class="list-number">{{ i + 1 }}</span>
+            <span>{{ suggestion }}</span>
+          </li>
+        </ul>
+        <p class="empty-state" *ngIf="!result.sugestoes?.length">Nenhuma sugestão retornada.</p>
+      </div>
+
+      <div class="card result-card">
+        <div class="result-card-header">
+          <h3>Encaminhamentos sugeridos</h3>
+          <span class="result-count" *ngIf="result.encaminhamentos?.length">{{ result.encaminhamentos?.length }}</span>
+        </div>
+        <ul class="result-list" *ngIf="result.encaminhamentos?.length">
+          <li *ngFor="let item of result.encaminhamentos; let i = index">
+            <span class="list-number">{{ i + 1 }}</span>
+            <span>{{ item }}</span>
+          </li>
+        </ul>
+        <p class="empty-state" *ngIf="!result.encaminhamentos?.length">Nenhum encaminhamento sugerido.</p>
+      </div>
+    </div>
+
+    <!-- Dados da triagem -->
+    <div class="card result-card">
+      <div class="result-card-header">
+        <h3>Registro da triagem</h3>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Código da triagem</span>
+          <span class="info-value">#{{ result.triagem?.id ?? '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Data e hora</span>
+          <span class="info-value">{{ formatDateTime(result.triagem?.dataHora) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nível de risco</span>
+          <span class="info-value-badge" [class]="riskClass(result.triagem?.risco ?? result.risco)">{{ result.triagem?.risco ?? result.risco ?? '—' }}</span>
+        </div>
+      </div>
+      <div class="observation-box" *ngIf="result.triagem?.relato">
+        <span class="observation-title">Relato registrado</span>
+        <p>{{ result.triagem?.relato }}</p>
+      </div>
+      <div class="observation-box" *ngIf="result.triagem?.sugestao">
+        <span class="observation-title">Observações da triagem</span>
+        <p>{{ result.triagem?.sugestao }}</p>
+      </div>
+    </div>
+
+    <!-- Dados do paciente -->
+    <div class="card result-card" *ngIf="result.triagem?.usuario">
+      <div class="result-card-header">
+        <h3>Dados do paciente</h3>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Nome</span>
+          <span class="info-value">{{ result.triagem?.usuario?.nome ?? '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">E-mail</span>
+          <span class="info-value">{{ result.triagem?.usuario?.email ?? '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Tipo</span>
+          <span class="info-value">{{ result.triagem?.usuario?.tipo ?? '—' }}</span>
+        </div>
+        <div class="info-item" *ngIf="result.triagem?.usuario?.empresa">
+          <span class="info-label">Empresa</span>
+          <span class="info-value">{{ result.triagem?.usuario?.empresa?.nome ?? '—' }}</span>
+        </div>
+        <div class="info-item" *ngIf="result.triagem?.usuario?.empresa?.planoSaude">
+          <span class="info-label">Plano de saúde</span>
+          <span class="info-value">{{ result.triagem?.usuario?.empresa?.planoSaude }}</span>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <h3>Triagem persistida</h3>
-      <div class="grid">
-        <div>
-          <span class="label">triagem código</span>
-          <strong>{{ result.triagem?.id ?? '—' }}</strong>
+    <!-- Encaminhamento criado (risco moderado/alto) -->
+    <div class="card result-card encaminhamento-card" *ngIf="result.risco?.toUpperCase() === 'MODERADO' || result.risco?.toUpperCase() === 'ALTO'">
+      <div class="result-card-header">
+        <h3>Encaminhamento profissional</h3>
+        <span class="status-pill" [class]="'status-' + (result.encaminhamento?.status?.toLowerCase() ?? 'pendente')">{{ result.encaminhamento?.status ?? 'PENDENTE' }}</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Código</span>
+          <span class="info-value">#{{ result.encaminhamento?.id ?? '—' }}</span>
         </div>
-        <div>
-          <span class="label">usuario código</span>
-          <strong>{{ result.triagem?.usuario?.id ?? '—' }}</strong>
+        <div class="info-item">
+          <span class="info-label">Prioridade</span>
+          <span class="info-value priority-value">{{ result.encaminhamento?.prioridade ?? '—' }}</span>
         </div>
-        <div>
-          <span class="label">data e hora</span>
-          <strong>{{ result.triagem?.dataHora ?? '—' }}</strong>
+        <div class="info-item">
+          <span class="info-label">Especialidade</span>
+          <span class="info-value">{{ result.encaminhamento?.especialidade ?? '—' }}</span>
         </div>
-        <div>
-          <span class="label">risco</span>
-          <strong>{{ result.triagem?.risco ?? result.risco ?? '—' }}</strong>
+        <div class="info-item" *ngIf="result.encaminhamento?.tipo">
+          <span class="info-label">Tipo</span>
+          <span class="info-value">{{ result.encaminhamento?.tipo }}</span>
+        </div>
+        <div class="info-item" *ngIf="result.encaminhamento?.exame">
+          <span class="info-label">Exame</span>
+          <span class="info-value">{{ result.encaminhamento?.exame }}</span>
         </div>
       </div>
-      <p class="label">Observações da triagem</p>
-      <p>{{ result.triagem?.sugestao ?? 'Nenhuma observação retornada.' }}</p>
-    </div>
 
-    <div class="card" *ngIf="result.risco?.toUpperCase() === 'MODERADO' || result.risco?.toUpperCase() === 'ALTO'">
-      <h3>Encaminhamento</h3>
-      <div class="grid">
-        <div>
-          <span class="label">encaminhamento código</span>
-          <strong>{{ result.encaminhamento?.id ?? '—' }}</strong>
-        </div>
-        <div>
-          <span class="label">prioridade</span>
-          <strong>{{ result.encaminhamento?.prioridade ?? '—' }}</strong>
-        </div>
-        <div>
-          <span class="label">especialidade</span>
-          <strong>{{ result.encaminhamento?.especialidade ?? '—' }}</strong>
-        </div>
-        <div>
-          <span class="label">status</span>
-          <strong>{{ result.encaminhamento?.status ?? '—' }}</strong>
+      <!-- Profissional designado -->
+      <div class="professional-box" *ngIf="result.encaminhamento?.profissional">
+        <span class="observation-title">Profissional designado</span>
+        <div class="professional-info">
+          <div class="professional-avatar">
+            {{ result.encaminhamento?.profissional?.nome?.charAt(0)?.toUpperCase() ?? 'P' }}
+          </div>
+          <div class="professional-details">
+            <strong>{{ result.encaminhamento?.profissional?.nome ?? '—' }}</strong>
+            <span *ngIf="result.encaminhamento?.profissional?.especialidade">{{ result.encaminhamento?.profissional?.especialidade }}</span>
+            <span *ngIf="result.encaminhamento?.profissional?.convenio">Convênio: {{ result.encaminhamento?.profissional?.convenio }}</span>
+            <span *ngIf="result.encaminhamento?.profissional?.contato">{{ result.encaminhamento?.profissional?.contato }}</span>
+          </div>
         </div>
       </div>
-      <p class="label">Detalhes</p>
-      <p>{{ result.encaminhamento?.observacao ?? 'Encaminhamento criado automaticamente.' }}</p>
+
+      <div class="observation-box" *ngIf="result.encaminhamento?.observacao">
+        <span class="observation-title">Detalhes do encaminhamento</span>
+        <p>{{ result.encaminhamento?.observacao }}</p>
+      </div>
+      <p class="auto-note" *ngIf="!result.encaminhamento?.observacao">Encaminhamento criado automaticamente pela IA com base na análise de risco.</p>
     </div>
 
-    <div class="card" *ngIf="result.risco?.toUpperCase() === 'BAIXO'">
-      <h3>Encaminhamento</h3>
-      <p>Nenhum encaminhamento gerado para risco baixo.</p>
+    <!-- Risco baixo: sem encaminhamento -->
+    <div class="card result-card low-risk-notice" *ngIf="result.risco?.toUpperCase() === 'BAIXO'">
+      <div class="result-card-header">
+        <h3>Encaminhamento</h3>
+      </div>
+      <p class="low-risk-text">Nenhum encaminhamento profissional foi necessário. O nível de risco identificado é baixo. Continue acompanhando e, caso perceba mudanças, realize uma nova análise.</p>
     </div>
+
   </div>
 </section>

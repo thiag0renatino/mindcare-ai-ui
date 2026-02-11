@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 import { HistoryService } from '../../core/services/history.service';
 import { EncaminhamentoResponse, TriagemResponse } from '../../models/mindcheck.models';
@@ -8,7 +8,7 @@ import { EncaminhamentoResponse, TriagemResponse } from '../../models/mindcheck.
 @Component({
   selector: 'app-analysis-details',
   standalone: true,
-  imports: [NgFor, NgIf, DatePipe],
+  imports: [NgFor, NgIf],
   templateUrl: './analysis-details.component.html',
   styleUrl: './analysis-details.component.css'
 })
@@ -59,15 +59,6 @@ export class AnalysisDetailsComponent implements OnInit {
     this.router.navigate(['/analysis/new']);
   }
 
-  private loadEncaminhamentos(triagem: TriagemResponse): void {
-    const risco = (triagem.risco ?? '').toUpperCase();
-    if ((risco === 'ALTO' || risco === 'MODERADO') && triagem.id) {
-      this.historyService.getEncaminhamentosByTriagem(triagem.id).subscribe({
-        next: (data) => (this.encaminhamentos = data),
-      });
-    }
-  }
-
   riskClass(risk: string | undefined): string {
     if (!risk) {
       return 'risk-unknown';
@@ -80,5 +71,66 @@ export class AnalysisDetailsComponent implements OnInit {
       return 'risk-moderate';
     }
     return 'risk-low';
+  }
+
+  riskBannerClass(risk: string | undefined): string {
+    if (!risk) {
+      return 'risk-banner risk-banner-unknown';
+    }
+    const normalized = risk.toUpperCase();
+    if (normalized === 'ALTO') {
+      return 'risk-banner risk-banner-high';
+    }
+    if (normalized === 'MODERADO') {
+      return 'risk-banner risk-banner-moderate';
+    }
+    if (normalized === 'BAIXO') {
+      return 'risk-banner risk-banner-low';
+    }
+    return 'risk-banner risk-banner-unknown';
+  }
+
+  riskLabel(risk: string | undefined): string {
+    if (!risk) {
+      return 'Não identificado';
+    }
+    const normalized = risk.toUpperCase();
+    if (normalized === 'BAIXO') {
+      return 'Risco Baixo';
+    }
+    if (normalized === 'MODERADO') {
+      return 'Risco Moderado';
+    }
+    if (normalized === 'ALTO') {
+      return 'Risco Alto';
+    }
+    return risk;
+  }
+
+  formatDateTime(dateTime: string | undefined): string {
+    if (!dateTime) {
+      return '—';
+    }
+    try {
+      const date = new Date(dateTime);
+      return date.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch {
+      return dateTime;
+    }
+  }
+
+  private loadEncaminhamentos(triagem: TriagemResponse): void {
+    const risco = (triagem.risco ?? '').toUpperCase();
+    if ((risco === 'ALTO' || risco === 'MODERADO') && triagem.id) {
+      this.historyService.getEncaminhamentosByTriagem(triagem.id).subscribe({
+        next: (data) => (this.encaminhamentos = data),
+      });
+    }
   }
 }
