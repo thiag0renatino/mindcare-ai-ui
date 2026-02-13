@@ -59,6 +59,12 @@ export class AuthService {
     });
   }
 
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiBaseUrl}/auth/logout`, {}).pipe(
+      tap(() => this.clearToken())
+    );
+  }
+
   private readToken(): string | null {
     if (!this.canUseStorage()) {
       return null;

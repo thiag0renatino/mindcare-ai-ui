@@ -153,10 +153,19 @@ export class ProfileComponent {
   }
 
   logout(): void {
-    this.authService.clearToken();
-    this.userContextService.clearUsuarioId();
-    this.userProfileService.clear();
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.userContextService.clearUsuarioId();
+        this.userProfileService.clear();
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.authService.clearToken();
+        this.userContextService.clearUsuarioId();
+        this.userProfileService.clear();
+        this.router.navigate(['/login']);
+      },
+    });
   }
 
   tipoLabel(tipo: string | undefined): string {
