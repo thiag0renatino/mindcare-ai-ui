@@ -5,9 +5,8 @@
   </a>
 
   <div class="navbar-links">
-    <a class="navbar-link" href="#benefits">Benefícios</a>
-    <a class="navbar-link" href="#how-it-works">Como funciona</a>
-    <a class="navbar-link" href="#about">Sobre</a>
+    <a class="navbar-link" href="#how-it-works" (click)="scrollTo($event, 'how-it-works')">Como funciona</a>
+    <a class="navbar-link" href="#about" (click)="scrollTo($event, 'about')">Sobre</a>
   </div>
 
   <a class="nav-cta-pill" routerLink="/register">Criar conta ↗</a>
@@ -15,172 +14,299 @@
 
 <!-- Hero Section -->
 <section class="hero">
-  <div class="hero-bg-green" aria-hidden="true"></div>
-  <div class="hero-bg-warm" aria-hidden="true"></div>
-  <div class="hero-bg-dots" aria-hidden="true"></div>
 
-  <div class="hero-content">
-    <div class="hero-badge animate-in" style="animation-name: fadeIn; animation-delay: 0s;">
-      <span class="hero-badge-icon">✦</span>
-      Powered by Azure OpenAI + Spring AI
-    </div>
+  <!-- Elemento decorativo: círculo com gradiente verde levíssimo -->
+  <div class="hero-deco-circle" aria-hidden="true"></div>
 
-    <h1 class="hero-headline animate-in" style="animation-name: fadeInUp; animation-delay: 0.1s;">
-      Triagem inteligente para o bem-estar corporativo
-    </h1>
+  <div class="hero-inner">
 
-    <p class="hero-sub animate-in" style="animation-name: fadeInUp; animation-delay: 0.2s;">
-      Identifique riscos de saúde física e mental da sua equipe
-      com IA Generativa — antes que virem afastamentos.
-    </p>
+    <!-- Bloco superior: duas colunas 60 / 40 -->
+    <div class="hero-top">
 
-    <div class="hero-ctas animate-in" style="animation-name: fadeInUp; animation-delay: 0.3s;">
-      <a class="hero-btn-primary" routerLink="/register">
-        Criar conta gratuita <span class="btn-arrow">→</span>
-      </a>
-      <a class="hero-btn-ghost" routerLink="/login">Já tenho conta</a>
-    </div>
-
-    <div class="hero-proof animate-in" style="animation-name: fadeIn; animation-delay: 0.5s;">
-      <span>✓ Sem cartão de crédito</span>
-      <span>✓ Configuração em minutos</span>
-      <span>✓ Dados seguros</span>
-    </div>
-  </div>
-</section>
-
-<!-- Problem / Solution Section -->
-<section class="ps-section">
-  <div class="ps-inner">
-    <div class="ps-header">
-      <h2 class="ps-title">Problema &amp; Solução</h2>
-      <p class="ps-sub">Por que o MindCare AI existe e o que ele entrega.</p>
-    </div>
-
-    <div class="ps-grid">
-
-      <div class="ps-card">
-        <h3>Problema</h3>
-        <p>
-          Em um cenário corporativo cada vez mais acelerado, a pressão constante por
-          resultados e o excesso de informações têm impactado diretamente a saúde
-          mental dos colaboradores.
-        </p>
-        <p>
-          Diversos estudos indicam que o <strong>esgotamento emocional, a ansiedade e o estresse
-          ocupacional</strong> estão entre as principais causas de afastamento no trabalho.
-        </p>
-        <p>
-          Apesar disso, a maioria das empresas ainda não possui mecanismos eficazes para
-          <strong>identificar sinais precoces</strong> de sofrimento emocional ou físico —
-          e muitas vezes o colaborador só busca ajuda quando o quadro já é grave.
-        </p>
-        <p>
-          Essa lacuna entre o problema e a prevenção inspirou a criação do
-          <strong>MindCare AI</strong>, uma ferramenta que combina tecnologia e empatia para transformar
-          o cuidado com o bem-estar dentro das organizações.
-        </p>
+      <!-- Coluna esquerda: tag pill + headline -->
+      <div class="hero-left">
+        <span class="hero-tag">↗ Azure OpenAI + Spring AI</span>
+        <h1 class="hero-headline">
+          <span class="hero-line" style="animation-delay: 0s">Triagem inteligente.</span>
+          <span class="hero-line hero-line--accent" style="animation-delay: 0.08s">para o bem-estar.</span>
+        </h1>
       </div>
 
-      <div class="ps-card">
-        <h3>Solução</h3>
-        <p>
-          O <strong>MindCare AI</strong> realiza check-ins periódicos com os colaboradores,
-          avaliando indicadores de saúde física e mental por meio de
-          <strong>respostas textuais</strong>.
+      <!-- Coluna direita: subtítulo + CTAs -->
+      <div class="hero-right">
+        <p class="hero-sub">
+          Identifique riscos de saúde física e mental da sua equipe
+          com IA Generativa — antes que virem afastamentos.
         </p>
-        <p>
-          Com o auxílio de <strong>Inteligência Artificial Generativa</strong>, o sistema
-          interpreta os relatos e gera uma <strong>análise personalizada de risco</strong>
-          — classificada como baixo, moderado ou alto — junto com
-          <strong>recomendações práticas e humanizadas</strong>.
-        </p>
-        <p>Essas recomendações podem incluir:</p>
-        <ul>
-          <li>Dicas imediatas ("tire pausas curtas", "beba mais água", "busque apoio médico");</li>
-          <li><strong>Encaminhamentos automáticos</strong> para profissionais de saúde do convênio corporativo;</li>
-          <li>Registro no <strong>histórico individual do colaborador</strong>, acompanhando sua evolução ao longo do tempo.</li>
-        </ul>
-        <p>
-          A IA atua como <strong>assistente de triagem</strong>, e não como diagnóstico
-          médico — garantindo segurança jurídica e foco no bem-estar.
-        </p>
+        <div class="hero-ctas">
+          <a class="hero-btn-primary" routerLink="/register">Criar conta gratuita →</a>
+          <a class="hero-btn-ghost" href="#how-it-works" (click)="scrollTo($event, 'how-it-works')">Ver como funciona →</a>
+        </div>
       </div>
 
     </div>
+
+    <!-- Separador com stats -->
+    <div class="hero-stats" aria-hidden="true">
+      <span class="hero-stat-item">• 3 níveis de risco</span>
+      <span class="hero-stat-item">• Encaminhamento automático</span>
+      <span class="hero-stat-item">• Azure OpenAI</span>
+      <span class="hero-stat-item">• 100% corporativo</span>
+    </div>
+
+    <!-- Bloco visual: dashboard simulado -->
+    <div class="hero-visual" aria-hidden="true">
+
+      <!-- Barra de browser fake -->
+      <div class="hero-browser-bar">
+        <div class="hero-browser-dots">
+          <span class="hero-dot hero-dot--red"></span>
+          <span class="hero-dot hero-dot--yellow"></span>
+          <span class="hero-dot hero-dot--green"></span>
+        </div>
+        <div class="hero-browser-url"></div>
+      </div>
+
+      <!-- Grid de cards: fluxo real do produto -->
+      <div class="hero-dashboard">
+
+        <!-- Card 1: Relato do colaborador -->
+        <div class="hero-dash-card">
+          <div class="hero-card-step">01 · Relato</div>
+          <div class="hero-card-textarea">
+            <span class="hero-card-textarea-text">
+              Estou me sentindo sobrecarregado com as demandas e não consigo dormir bem há algumas semanas...
+            </span>
+          </div>
+          <div class="hero-card-action">
+            <div class="hero-card-btn">Enviar análise</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Resultado da análise IA (destaque) -->
+        <div class="hero-dash-card hero-dash-card--featured">
+          <div class="hero-card-step">02 · Análise IA</div>
+          <div class="hero-card-risk">
+            <span class="hero-card-badge hero-card-badge--medium">MODERADO</span>
+          </div>
+          <div class="hero-shimmer" style="width: 96%; height: 7px; margin-top: 10px;"></div>
+          <div class="hero-shimmer" style="width: 82%; height: 7px; margin-top: 5px;"></div>
+          <div class="hero-shimmer" style="width: 90%; height: 7px; margin-top: 5px;"></div>
+          <div class="hero-card-divider"></div>
+          <div class="hero-card-rec">
+            <span class="hero-card-rec-icon">✓</span>
+            <div class="hero-shimmer" style="width: 72%; height: 7px;"></div>
+          </div>
+          <div class="hero-card-rec">
+            <span class="hero-card-rec-icon">✓</span>
+            <div class="hero-shimmer" style="width: 58%; height: 7px;"></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Encaminhamento automático -->
+        <div class="hero-dash-card">
+          <div class="hero-card-step">03 · Encaminhamento</div>
+          <div class="hero-card-doctor">
+            <div class="hero-card-avatar">P</div>
+            <div class="hero-card-doctor-info">
+              <div class="hero-shimmer" style="width: 85%; height: 8px;"></div>
+              <span class="hero-card-specialty">Psicólogo · Convênio</span>
+            </div>
+          </div>
+          <div class="hero-card-status">
+            <span class="hero-card-status-dot"></span>
+            Agendamento automático
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-indicator" [class.hidden]="heroScrolled" aria-hidden="true">
+    <span class="hero-scroll-text">scroll</span>
+    <svg class="hero-scroll-arrow" width="14" height="20" viewBox="0 0 14 20" fill="none">
+      <path d="M7 2v12M2 11l5 5 5-5" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
 </section>
 
 <!-- How It Works Section -->
-<section class="how-it-works">
+<section id="how-it-works" class="how-it-works">
   <div class="how-inner">
+
+    <!-- Cabeçalho dois-colunas estilo Area -->
     <div class="how-header">
       <h2 class="how-title">Como funciona</h2>
-      <p class="how-sub">Três passos para transformar relatos em cuidado real.</p>
     </div>
 
+    <!-- Grid 3 colunas com divisores -->
     <div class="how-grid">
 
-      <!-- Passo 1 -->
-      <div class="how-card">
-        <span class="how-card-number" aria-hidden="true">01</span>
-        <div class="how-card-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <rect x="8" y="4" width="20" height="26" rx="2.5" stroke="currentColor" stroke-width="1.75"/>
-            <line x1="13" y1="11" x2="23" y2="11" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="13" y1="16" x2="23" y2="16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="13" y1="21" x2="18" y2="21" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <circle cx="30" cy="28" r="6" fill="var(--surface-2)" stroke="currentColor" stroke-width="1.75"/>
-            <line x1="30" y1="25" x2="30" y2="31" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="27" y1="28" x2="33" y2="28" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3 class="how-card-title">Envie o relato</h3>
-        <p class="how-card-desc">
-          Descreva em texto livre como você está se sentindo física e mentalmente.
+      <!-- Step 01 -->
+      <div class="how-step">
+        <span class="how-step-num" appScrollAnimate animName="fadeInUp" animDelay="0s"
+              aria-hidden="true">01</span>
+        <h3 class="how-step-title" appScrollAnimate animName="fadeInUp" animDelay="0s">
+          Envie o relato
+        </h3>
+        <p class="how-step-desc">
+          Descreva em texto livre como você está se sentindo física e mentalmente
+          no ambiente de trabalho.
         </p>
       </div>
 
-      <!-- Passo 2 -->
-      <div class="how-card">
-        <span class="how-card-number" aria-hidden="true">02</span>
-        <div class="how-card-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <rect x="12" y="12" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.75"/>
-            <rect x="17" y="17" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
-            <line x1="20" y1="4"  x2="20" y2="10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="20" y1="30" x2="20" y2="36" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="4"  y1="20" x2="10" y2="20" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="30" y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="8.5"  y1="8.5"  x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="27.5" y1="27.5" x2="31.5" y2="31.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="31.5" y1="8.5"  x2="27.5" y2="12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="12.5" y1="27.5" x2="8.5"  y2="31.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3 class="how-card-title">IA classifica o risco</h3>
-        <p class="how-card-desc">
-          Azure OpenAI analisa o relato e retorna risco BAIXO, MODERADO ou ALTO com justificativa.
+      <!-- Step 02 -->
+      <div class="how-step">
+        <span class="how-step-num" appScrollAnimate animName="fadeInUp" animDelay="0.15s"
+              aria-hidden="true">02</span>
+        <h3 class="how-step-title" appScrollAnimate animName="fadeInUp" animDelay="0.15s">
+          IA classifica o risco
+        </h3>
+        <p class="how-step-desc">
+          Azure OpenAI analisa o relato e retorna nível de risco BAIXO, MODERADO ou ALTO
+          com justificativa detalhada.
         </p>
       </div>
 
-      <!-- Passo 3 -->
-      <div class="how-card">
-        <span class="how-card-number" aria-hidden="true">03</span>
-        <div class="how-card-icon">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <rect x="8" y="6" width="22" height="28" rx="2.5" stroke="currentColor" stroke-width="1.75"/>
-            <line x1="13" y1="13" x2="25" y2="13" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="13" y1="18" x2="25" y2="18" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <line x1="13" y1="23" x2="20" y2="23" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-            <circle cx="29" cy="29" r="7" fill="var(--accent-1)"/>
-            <polyline points="25.5,29 28,31.5 32.5,26.5" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <h3 class="how-card-title">Encaminhamento automático</h3>
-        <p class="how-card-desc">
-          Se necessário, um profissional do convênio corporativo é designado automaticamente.
+      <!-- Step 03 -->
+      <div class="how-step">
+        <span class="how-step-num" appScrollAnimate animName="fadeInUp" animDelay="0.3s"
+              aria-hidden="true">03</span>
+        <h3 class="how-step-title" appScrollAnimate animName="fadeInUp" animDelay="0.3s">
+          Encaminhamento automático
+        </h3>
+        <p class="how-step-desc">
+          Se necessário, um profissional do convênio corporativo é designado automaticamente
+          com base no risco.
         </p>
+      </div>
+
+    </div>
+
+    <!-- Flow preview: telas do fluxo Nova análise → Resultado → Encaminhamento -->
+    <div class="how-flow-preview">
+
+      <div class="how-flow-card">
+        <span class="how-flow-card-label">Nova análise</span>
+        <div class="how-flow-shimmer" style="width: 80%; height: 10px; margin-top: 10px;"></div>
+        <div class="how-flow-shimmer" style="width: 65%; height: 8px; margin-top: 6px;"></div>
+        <div class="how-flow-shimmer" style="width: 90%; height: 8px; margin-top: 6px;"></div>
+        <div class="how-flow-shimmer" style="width: 75%; height: 8px; margin-top: 6px;"></div>
+        <div class="how-flow-badge how-flow-badge--low">ENVIAR</div>
+      </div>
+
+      <div class="how-flow-arrow" aria-hidden="true">→</div>
+
+      <div class="how-flow-card">
+        <span class="how-flow-card-label">Resultado de risco</span>
+        <div class="how-flow-shimmer" style="width: 70%; height: 10px; margin-top: 10px;"></div>
+        <div class="how-flow-shimmer" style="width: 85%; height: 8px; margin-top: 6px;"></div>
+        <div class="how-flow-badge how-flow-badge--medium">MODERADO</div>
+        <div class="how-flow-shimmer" style="width: 60%; height: 8px; margin-top: 10px;"></div>
+        <div class="how-flow-shimmer" style="width: 45%; height: 8px; margin-top: 6px;"></div>
+      </div>
+
+      <div class="how-flow-arrow" aria-hidden="true">→</div>
+
+      <div class="how-flow-card">
+        <span class="how-flow-card-label">Encaminhamento</span>
+        <div class="how-flow-shimmer" style="width: 75%; height: 10px; margin-top: 10px;"></div>
+        <div class="how-flow-shimmer" style="width: 60%; height: 8px; margin-top: 6px;"></div>
+        <div class="how-flow-badge how-flow-badge--medium">MODERADO</div>
+        <div class="how-flow-shimmer" style="width: 85%; height: 8px; margin-top: 10px;"></div>
+        <div class="how-flow-shimmer" style="width: 50%; height: 8px; margin-top: 6px;"></div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- About / Problem-Solution Section -->
+<section id="about" class="about-section">
+  <div class="about-inner">
+
+    <!-- Cabeçalho -->
+    <div class="about-header">
+      <span class="about-label">SOBRE O PROJETO</span>
+      <h2 class="about-title">Uma ferramenta que coloca o bem-estar em primeiro lugar.</h2>
+    </div>
+
+    <!-- Grid principal: 2 colunas -->
+    <div class="about-grid">
+
+      <!-- Coluna esquerda: Problema -->
+      <div class="about-col" appScrollAnimate animName="fadeInUp" animDelay="0s">
+        <span class="about-col-label">O PROBLEMA</span>
+        <h3 class="about-col-title">Saúde mental negligenciada no trabalho</h3>
+        <p class="about-col-text">
+          Em um cenário corporativo cada vez mais acelerado, a pressão constante por
+          resultados tem impactado diretamente a saúde mental dos colaboradores.
+        </p>
+        <p class="about-col-text">
+          A maioria das empresas ainda não possui mecanismos eficazes para identificar
+          sinais precoces de sofrimento — e muitas vezes o colaborador só busca ajuda
+          quando o quadro já é grave.
+        </p>
+
+        <!-- Stat de destaque -->
+        <div class="about-stat">
+          <span class="about-stat-num">1 em 5</span>
+          <span class="about-stat-text">colaboradores sofre com esgotamento emocional</span>
+        </div>
+      </div>
+
+      <!-- Coluna direita: Solução -->
+      <div class="about-col" appScrollAnimate animName="fadeInUp" animDelay="0.15s">
+        <span class="about-col-label">A SOLUÇÃO</span>
+        <h3 class="about-col-title">IA que faz triagem, orienta e encaminha</h3>
+        <p class="about-col-text">
+          O MindCare AI realiza check-ins periódicos com os colaboradores, interpretando
+          relatos com Inteligência Artificial Generativa e gerando análises personalizadas
+          de risco com recomendações práticas e humanizadas.
+        </p>
+
+        <!-- Feature list visual -->
+        <ul class="about-features">
+          <li class="about-feature">
+            <svg class="about-feature-icon" viewBox="0 0 20 20" fill="none"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 10l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Análise de risco BAIXO, MODERADO ou ALTO</span>
+          </li>
+          <li class="about-feature">
+            <svg class="about-feature-icon" viewBox="0 0 20 20" fill="none"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 10l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Encaminhamento automático ao convênio corporativo</span>
+          </li>
+          <li class="about-feature">
+            <svg class="about-feature-icon" viewBox="0 0 20 20" fill="none"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 10l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Histórico individual para acompanhamento contínuo</span>
+          </li>
+        </ul>
+
+        <!-- CTA block verde -->
+        <div class="about-cta-block">
+          <p class="about-cta-lead">Pronto para começar?</p>
+          <a class="about-cta-btn" routerLink="/register">Criar conta gratuita →</a>
+        </div>
       </div>
 
     </div>
@@ -190,9 +316,64 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-inner">
-    <span class="footer-name">MindCare AI</span>
-    <p class="footer-tagline">Triagem inteligente para ambientes corporativos</p>
-    <a class="footer-github" href="https://github.com/thiag0renatino/mindcare-ai"
-       target="_blank" rel="noreferrer noopener">GitHub →</a>
+
+    <!-- Bloco superior: grid 4 colunas -->
+    <div class="footer-top">
+
+      <!-- Coluna 1: Marca -->
+      <div class="footer-brand">
+        <span class="footer-logo">MindCare AI</span>
+        <p class="footer-tagline">
+          Triagem inteligente de bem-estar para ambientes corporativos.
+        </p>
+        <span class="footer-badge">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Azure OpenAI
+        </span>
+      </div>
+
+      <!-- Coluna 2: Produto -->
+      <div class="footer-col">
+        <span class="footer-col-title">Produto</span>
+        <a class="footer-link" routerLink="/analysis/new">Nova análise</a>
+        <a class="footer-link" routerLink="/history">Histórico</a>
+        <a class="footer-link" routerLink="/profile">Perfil</a>
+      </div>
+
+      <!-- Coluna 3: Plataforma -->
+      <div class="footer-col">
+        <span class="footer-col-title">Plataforma</span>
+        <a class="footer-link" href="#how-it-works"
+           (click)="scrollTo($event, 'how-it-works')">Como funciona</a>
+        <a class="footer-link" href="#about"
+           (click)="scrollTo($event, 'about')">Sobre o projeto</a>
+        <a class="footer-link" href="#">Triagem com IA</a>
+      </div>
+
+      <!-- Coluna 4: Tecnologia -->
+      <div class="footer-col">
+        <span class="footer-col-title">Tecnologia</span>
+        <span class="footer-tech-item">Spring Boot + Spring AI</span>
+        <span class="footer-tech-item">Azure OpenAI GPT-4</span>
+        <span class="footer-tech-item">Angular 17</span>
+        <span class="footer-tech-item">PostgreSQL</span>
+      </div>
+
+    </div>
+
+    <!-- Bloco inferior -->
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 MindCare AI. Todos os direitos reservados.</span>
+      <div class="footer-pills">
+        <span class="footer-pill footer-pill--angular">Angular</span>
+        <span class="footer-pill footer-pill--spring">Spring AI</span>
+        <span class="footer-pill footer-pill--azure">Azure</span>
+      </div>
+    </div>
+
   </div>
 </footer>
