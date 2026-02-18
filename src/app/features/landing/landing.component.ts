@@ -27,6 +27,6 @@ export class LandingComponent implements OnInit {
   // :host é o scroll container (overflow-y: auto), não window
   @HostListener('scroll', ['$event.target'])
   onScroll(target: EventTarget | null): void {
-    this.navScrolled = (target as HTMLElement)?.scrollTop > 60;
+    this.navScrolled = (target as HTMLElement)?.scrollTop > 80;
   }
 }

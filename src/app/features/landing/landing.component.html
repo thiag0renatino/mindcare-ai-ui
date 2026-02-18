@@ -1,34 +1,50 @@
 <!-- Navbar -->
 <nav class="navbar" [class.scrolled]="navScrolled">
   <a class="navbar-brand" routerLink="/">
-    <img src="assets/logo.png" alt="MindCare AI logo" class="navbar-logo" />
     <span class="navbar-name">MindCare AI</span>
   </a>
 
   <div class="navbar-links">
+    <a class="navbar-link" href="#benefits">Benefícios</a>
     <a class="navbar-link" href="#how-it-works">Como funciona</a>
     <a class="navbar-link" href="#about">Sobre</a>
   </div>
 
-  <div class="navbar-actions">
-    <a class="nav-btn-ghost" routerLink="/login">Entrar</a>
-    <a class="nav-btn-primary" routerLink="/register">Criar conta</a>
-  </div>
+  <a class="nav-cta-pill" routerLink="/register">Criar conta ↗</a>
 </nav>
 
 <!-- Hero Section -->
 <section class="hero">
-  <div class="hero-ambient"></div>
+  <div class="hero-bg-green" aria-hidden="true"></div>
+  <div class="hero-bg-warm" aria-hidden="true"></div>
+  <div class="hero-bg-dots" aria-hidden="true"></div>
+
   <div class="hero-content">
-    <span class="hero-badge">Azure OpenAI + Spring AI</span>
-    <h1 class="hero-headline">Triagem inteligente para o bem-estar corporativo</h1>
-    <p class="hero-sub">
-      Identifique riscos de saúde física e mental da sua equipe com IA Generativa
-      — antes que virem afastamentos.
+    <div class="hero-badge animate-in" style="animation-name: fadeIn; animation-delay: 0s;">
+      <span class="hero-badge-icon">✦</span>
+      Powered by Azure OpenAI + Spring AI
+    </div>
+
+    <h1 class="hero-headline animate-in" style="animation-name: fadeInUp; animation-delay: 0.1s;">
+      Triagem inteligente para o bem-estar corporativo
+    </h1>
+
+    <p class="hero-sub animate-in" style="animation-name: fadeInUp; animation-delay: 0.2s;">
+      Identifique riscos de saúde física e mental da sua equipe
+      com IA Generativa — antes que virem afastamentos.
     </p>
-    <div class="hero-ctas">
-      <a class="hero-btn-primary" routerLink="/register">Criar conta gratuita</a>
+
+    <div class="hero-ctas animate-in" style="animation-name: fadeInUp; animation-delay: 0.3s;">
+      <a class="hero-btn-primary" routerLink="/register">
+        Criar conta gratuita <span class="btn-arrow">→</span>
+      </a>
       <a class="hero-btn-ghost" routerLink="/login">Já tenho conta</a>
+    </div>
+
+    <div class="hero-proof animate-in" style="animation-name: fadeIn; animation-delay: 0.5s;">
+      <span>✓ Sem cartão de crédito</span>
+      <span>✓ Configuração em minutos</span>
+      <span>✓ Dados seguros</span>
     </div>
   </div>
 </section>
