@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { LandingComponent } from './features/landing/landing.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
 import { AppShellComponent } from './layout/app-shell.component';
@@ -11,6 +12,7 @@ import { ProfileComponent } from './features/profile/profile.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
+  { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
@@ -23,7 +25,6 @@ export const routes: Routes = [
       { path: 'history/:id', component: AnalysisDetailsComponent },
       { path: 'about', component: AboutComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: '', pathMatch: 'full', redirectTo: 'analysis/new' }
     ]
   },
   { path: '**', redirectTo: '' }
