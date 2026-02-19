@@ -167,65 +167,77 @@
       </div>
     </div>
 
-    <!-- Encaminhamento criado (risco moderado/alto) -->
-    <div class="card result-card encaminhamento-card" *ngIf="result.risco?.toUpperCase() === 'MODERADO' || result.risco?.toUpperCase() === 'ALTO'">
-      <div class="result-card-header">
-        <h3>Encaminhamento profissional</h3>
-        <span class="status-pill" [class]="'status-' + (result.encaminhamento?.status?.toLowerCase() ?? 'pendente')">{{ result.encaminhamento?.status ?? 'PENDENTE' }}</span>
-      </div>
-      <div class="info-grid">
-        <div class="info-item">
-          <span class="info-label">Código</span>
-          <span class="info-value">#{{ result.encaminhamento?.id ?? '—' }}</span>
+    <!-- Encaminhamentos criados (um card por encaminhamento) -->
+    <ng-container *ngIf="result.encaminhamentosCriados?.length; else semEncaminhamento">
+      <div class="card result-card encaminhamento-card"
+           *ngFor="let enc of result.encaminhamentosCriados; let i = index">
+        <div class="result-card-header">
+          <h3>
+            Encaminhamento profissional
+            <span class="enc-index" *ngIf="(result.encaminhamentosCriados?.length ?? 0) > 1">
+              {{ i + 1 }}/{{ result.encaminhamentosCriados?.length }}
+            </span>
+          </h3>
+          <span class="status-pill" [class]="'status-' + (enc.status?.toLowerCase() ?? 'pendente')">
+            {{ enc.status ?? 'PENDENTE' }}
+          </span>
         </div>
-        <div class="info-item">
-          <span class="info-label">Prioridade</span>
-          <span class="info-value priority-value">{{ result.encaminhamento?.prioridade ?? '—' }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Especialidade</span>
-          <span class="info-value">{{ result.encaminhamento?.especialidade ?? '—' }}</span>
-        </div>
-        <div class="info-item" *ngIf="result.encaminhamento?.tipo">
-          <span class="info-label">Tipo</span>
-          <span class="info-value">{{ result.encaminhamento?.tipo }}</span>
-        </div>
-        <div class="info-item" *ngIf="result.encaminhamento?.exame">
-          <span class="info-label">Exame</span>
-          <span class="info-value">{{ result.encaminhamento?.exame }}</span>
-        </div>
-      </div>
-
-      <!-- Profissional designado -->
-      <div class="professional-box" *ngIf="result.encaminhamento?.profissional">
-        <span class="observation-title">Profissional designado</span>
-        <div class="professional-info">
-          <div class="professional-avatar">
-            {{ result.encaminhamento?.profissional?.nome?.charAt(0)?.toUpperCase() ?? 'P' }}
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Código</span>
+            <span class="info-value">#{{ enc.id ?? '—' }}</span>
           </div>
-          <div class="professional-details">
-            <strong>{{ result.encaminhamento?.profissional?.nome ?? '—' }}</strong>
-            <span *ngIf="result.encaminhamento?.profissional?.especialidade">{{ result.encaminhamento?.profissional?.especialidade }}</span>
-            <span *ngIf="result.encaminhamento?.profissional?.convenio">Convênio: {{ result.encaminhamento?.profissional?.convenio }}</span>
-            <span *ngIf="result.encaminhamento?.profissional?.contato">{{ result.encaminhamento?.profissional?.contato }}</span>
+          <div class="info-item">
+            <span class="info-label">Prioridade</span>
+            <span class="info-value priority-value">{{ enc.prioridade ?? '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Especialidade</span>
+            <span class="info-value">{{ enc.especialidade ?? '—' }}</span>
+          </div>
+          <div class="info-item" *ngIf="enc.tipo">
+            <span class="info-label">Tipo</span>
+            <span class="info-value">{{ enc.tipo }}</span>
+          </div>
+          <div class="info-item" *ngIf="enc.exame && enc.exame !== 'N/A'">
+            <span class="info-label">Exame</span>
+            <span class="info-value">{{ enc.exame }}</span>
           </div>
         </div>
-      </div>
 
-      <div class="observation-box" *ngIf="result.encaminhamento?.observacao">
-        <span class="observation-title">Detalhes do encaminhamento</span>
-        <p>{{ result.encaminhamento?.observacao }}</p>
-      </div>
-      <p class="auto-note" *ngIf="!result.encaminhamento?.observacao">Encaminhamento criado automaticamente pela IA com base na análise de risco.</p>
-    </div>
+        <!-- Profissional designado -->
+        <div class="professional-box" *ngIf="enc.profissional">
+          <span class="observation-title">Profissional designado</span>
+          <div class="professional-info">
+            <div class="professional-avatar">
+              {{ enc.profissional.nome?.charAt(0)?.toUpperCase() ?? 'P' }}
+            </div>
+            <div class="professional-details">
+              <strong>{{ enc.profissional.nome ?? '—' }}</strong>
+              <span *ngIf="enc.profissional.especialidade">{{ enc.profissional.especialidade }}</span>
+              <span *ngIf="enc.profissional.convenio">Convênio: {{ enc.profissional.convenio }}</span>
+              <span *ngIf="enc.profissional.contato">{{ enc.profissional.contato }}</span>
+            </div>
+          </div>
+        </div>
 
-    <!-- Risco baixo: sem encaminhamento -->
-    <div class="card result-card low-risk-notice" *ngIf="result.risco?.toUpperCase() === 'BAIXO'">
-      <div class="result-card-header">
-        <h3>Encaminhamento</h3>
+        <div class="observation-box" *ngIf="enc.observacao">
+          <span class="observation-title">Detalhes do encaminhamento</span>
+          <p>{{ enc.observacao }}</p>
+        </div>
+        <p class="auto-note" *ngIf="!enc.observacao">Encaminhamento criado automaticamente pela IA com base na análise de risco.</p>
       </div>
-      <p class="low-risk-text">Nenhum encaminhamento profissional foi necessário. O nível de risco identificado é baixo. Continue acompanhando e, caso perceba mudanças, realize uma nova análise.</p>
-    </div>
+    </ng-container>
+
+    <!-- Sem encaminhamento (risco baixo ou ausência de encaminhamentos) -->
+    <ng-template #semEncaminhamento>
+      <div class="card result-card low-risk-notice" *ngIf="result.risco?.toUpperCase() === 'BAIXO'">
+        <div class="result-card-header">
+          <h3>Encaminhamento</h3>
+        </div>
+        <p class="low-risk-text">Nenhum encaminhamento profissional foi necessário. O nível de risco identificado é baixo. Continue acompanhando e, caso perceba mudanças, realize uma nova análise.</p>
+      </div>
+    </ng-template>
 
   </div>
 </section>

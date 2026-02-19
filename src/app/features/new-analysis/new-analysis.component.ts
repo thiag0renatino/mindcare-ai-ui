@@ -34,7 +34,7 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     { label: 'Enviando relato', state: 'pending' as StepState },
     { label: 'IA gerando resposta estruturada', state: 'pending' as StepState },
     { label: 'Persistindo triagem', state: 'pending' as StepState },
-    { label: 'Criando encaminhamento (se necessário)', state: 'pending' as StepState }
+    { label: 'Criando encaminhamentos (se necessário)', state: 'pending' as StepState }
   ];
 
   private stepTimer: number | null = null;
@@ -245,14 +245,16 @@ export class NewAnalysisComponent implements OnInit, OnDestroy {
     addLine(`Risco: ${result.triagem?.risco ?? result.risco ?? '—'}`);
     addLine(`Observacoes: ${result.triagem?.sugestao ?? 'Nenhuma observacao retornada.'}`);
 
-    if (result.encaminhamento) {
-      addLine('');
-      addLine('Encaminhamento');
-      addLine(`Encaminhamento ID: ${result.encaminhamento?.id ?? '—'}`);
-      addLine(`Prioridade: ${result.encaminhamento?.prioridade ?? '—'}`);
-      addLine(`Especialidade: ${result.encaminhamento?.especialidade ?? '—'}`);
-      addLine(`Status: ${result.encaminhamento?.status ?? '—'}`);
-      addLine(`Detalhes: ${result.encaminhamento?.observacao ?? 'Encaminhamento criado automaticamente.'}`);
+    if (result.encaminhamentosCriados?.length) {
+      result.encaminhamentosCriados.forEach((enc, idx) => {
+        addLine('');
+        addLine(`Encaminhamento ${idx + 1}`);
+        addLine(`Encaminhamento ID: ${enc.id ?? '—'}`);
+        addLine(`Prioridade: ${enc.prioridade ?? '—'}`);
+        addLine(`Especialidade: ${enc.especialidade ?? '—'}`);
+        addLine(`Status: ${enc.status ?? '—'}`);
+        addLine(`Detalhes: ${enc.observacao ?? 'Encaminhamento criado automaticamente.'}`);
+      });
     }
 
     return lines.join('\n');

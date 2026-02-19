@@ -15,6 +15,7 @@ export interface MindCheckAiResponse {
   justificativa?: string;
   triagem?: TriagemResponse;
   encaminhamento?: EncaminhamentoResponse;
+  encaminhamentosCriados?: EncaminhamentoResponse[];
 }
 
 export interface TriagemResponse {

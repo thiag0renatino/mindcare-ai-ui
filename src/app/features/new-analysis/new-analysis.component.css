@@ -609,6 +609,14 @@ textarea:focus {
   font-size: 0.8rem;
 }
 
+/* ── Enc index counter ── */
+.enc-index {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ink-3);
+  margin-left: 0.4rem;
+}
+
 /* ── Status Pill ── */
 .status-pill {
   font-size: 0.68rem;
