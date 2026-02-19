@@ -29,6 +29,44 @@
   pointer-events: none;
 }
 
+.back-link {
+  position: absolute;
+  top: 1.75rem;
+  left: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-0);
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+  z-index: 2;
+}
+
+.back-link:hover {
+  color: var(--ink-0);
+  background: var(--surface-2);
+  border-color: var(--border-subtle);
+  transform: translateX(-2px);
+}
+
+.back-link svg {
+  flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.back-link:hover svg {
+  transform: translateX(-2px);
+}
+
 .login-card {
   background: var(--surface-2);
   border-radius: var(--radius-xl);

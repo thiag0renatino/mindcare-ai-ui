@@ -585,7 +585,7 @@
 /* ── How It Works ── */
 .how-it-works {
   background: var(--surface-0);
-  padding: 6rem 2.5rem;
+  padding: 6rem 2.5rem 3.5rem;
 }
 
 .how-inner {
@@ -792,7 +792,7 @@
 /* ── About / Problem-Solution ── */
 .about-section {
   background: var(--surface-0);
-  padding: 7rem 2.5rem;
+  padding: 3rem 2.5rem 7rem;
 }
 
 .about-inner {
