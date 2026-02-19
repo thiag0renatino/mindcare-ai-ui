@@ -77,6 +77,35 @@
   width: 100%;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.nav-ghost-pill {
+  padding: 0.55rem 1.3rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-medium);
+  background: transparent;
+  color: var(--ink-1);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.nav-ghost-pill:hover {
+  border-color: var(--accent-1);
+  color: var(--accent-1);
+  background: var(--accent-subtle);
+}
+
 .nav-cta-pill {
   padding: 0.55rem 1.3rem;
   border-radius: var(--radius-full);
@@ -103,6 +132,10 @@
   }
 
   .navbar-links {
+    display: none;
+  }
+
+  .nav-ghost-pill {
     display: none;
   }
 }
